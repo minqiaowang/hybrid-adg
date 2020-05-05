@@ -25,11 +25,11 @@ This lab assumes you have already completed the following labs:
 
 4. Enter a unique VCN Name and following value:
 
-   - VCN CIDR BLOCK: 10.0.0.0/16
-   - Public Subnet CIDR Block: 10.0.0.0/24
-   - Private Subnet CIDR Block: 10.0.1.0/24
+    - VCN CIDR BLOCK: 10.0.0.0/16
+    - Public Subnet CIDR Block: 10.0.0.0/24
+    - Private Subnet CIDR Block: 10.0.1.0/24
 
-   <img src="images/image-20200130161029651.png" alt="image-20200130161029651" style="zoom:42%;" />
+    <img src="images/image-20200130161029651.png" alt="image-20200130161029651" style="zoom:42%;" />
 
 5. Click **Next**, review the VCN and click **Create**.
 
@@ -43,7 +43,7 @@ This lab assumes you have already completed the following labs:
 
 8. Add an Ingress Rule to allow TCP traffic for port 1521, 
 
-<img src="images/image-20200505124937347.png" alt="image-20200505124937347" style="zoom:50%;" />
+   <img src="images/image-20200505124937347.png" alt="image-20200505124937347" style="zoom:50%;" />
 
 
 
@@ -102,11 +102,11 @@ This lab assumes you have already completed the following labs:
 
 6. If you choose ASM as the storage manage, wait about 60 minutes. If you choose LVM as the storage manage, wait about 15 minutes. Then the Database is ready.
 
-    <img src="images/image-20200130200100992.png" alt="image-20200130200100992" style="zoom:50%;" />
+   <img src="images/image-20200130200100992.png" alt="image-20200130200100992" style="zoom:50%;" />
 
 7. Remmeber and write down the Database Unique Name like *ORCL_nrt1d4*.
 8. Click the **Nodes**,  write down the public ip address of the database host node and the Host Domain Name.
 
-<img src="images/image-20200130200337237.png" alt="image-20200130200337237" style="zoom:50%;" />
+   <img src="images/image-20200130200337237.png" alt="image-20200130200337237" style="zoom:50%;" />
 
 Now you are complete to Provisioning the Database System steps.

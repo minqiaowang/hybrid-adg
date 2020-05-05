@@ -18,7 +18,7 @@ During this Lab, You will learn how to setup Hybrid Data Guard to Oracle Cloud I
 
 In a Data Guard configuration, the primary and standby must be able to communicate bi-directionally. This requires additional network configuration to allow access to ports between the systems. 
 
-###**1. Secure Connectivity **
+##Secure Connectivity
 
 There are two options to privately connect your cloud network to the on-premises network, IPSec VPN and FastConnect. Each of these methods require a Dynamic Routing Gateway (DRG) to connect to your Virtual Cloud Network (VCN). Details for creating a DRG can be found in the documentation at this link. 
 
@@ -30,7 +30,7 @@ IPSec stands for Internet Protocol Security or IP Security. IPSec is a protocol 
 
 Oracle Cloud Infrastructure FastConnect provides a method to create a dedicated, private connection between your data center and Oracle Cloud Infrastructure. FastConnect provides higher-bandwidth options and a more reliable and consistent networking experience compared to internet-based connections. 
 
-###**2. Public Internet Connectivity **
+##Public Internet Connectivity
 
 Connectivity between OCI and on-premises can be achieved through the public internet as well. This method is not by default secure and additional steps must be taken to secure transmissions. The lab steps assumes public internet connectivity. 
 
@@ -40,7 +40,7 @@ When provisioning Database Cloud Services in OCI, there are 2 options to for the
 
 
 
-## Acknowledgements
+##Acknowledgements
 
 - **Authors/Contributors** - Minqiao Wang, DB Product Management, May 2020
 - **Last Updated By/Date** - 
