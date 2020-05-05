@@ -2,6 +2,13 @@
 
 In this lab, you will provision a Database system on OCI to act as the standby database in the cloud. You can provision the Cloud database in the different region with the on-premise database.
 
+### Lab Prerequisites
+
+This lab assumes you have already completed the following labs:
+
+- Register for Free Tier
+- Create SSH Keys
+
 ## Create the VCN
 
 1. Open the navigation menu. Under **Core Infrastructure**, go to **Networking** and click **Virtual Cloud Networks**.
