@@ -2,7 +2,7 @@
 
 This procedure is basically same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup data guard from an SI on-premises to an SI in the cloud infrastructure. If you want to setup data guard from an SI on-premises to to a 2-Node RAC in cloud infrastructure or RAC on-premises to an SI in the cloud infrastructure. Please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
 
-**Note: The following steps is for the cloud database using ASM for the storage management in Lab4. If you use LVM for the storage, please use another Lab for the LVM.**
+**Note: The following steps is for the cloud database using ASM for the storage management in Lab5. If you use LVM for the storage, please use another Lab for the LVM.**
 
 ##Manually Delete the Database Created by Tooling 
 
@@ -12,7 +12,7 @@ To delete the starter database, use the manual method of removing the database f
 
 To manually delete the database on the cloud host, run the steps below.
 
-1. Connect to the DBCS VM which you created in Lab4 with opc user. Use putty tools(Windows) or command line(Mac, linux).
+1. Connect to the DBCS VM which you created in Lab5 with opc user. Use putty tools(Windows) or command line(Mac, linux).
 
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
@@ -28,14 +28,14 @@ To manually delete the database on the cloud host, run the steps below.
 
    
 
-3. Get the current db_unique_name for the Cloud database. 
+3. Get the current `db_unique_name` for the Cloud database. 
 
 ```
 [oracle@dbstby ~]$ srvctl config database
 ORCL_nrt1d4
 ```
 
-4. Copy the following scripts, replace the <standby DB_UNIQUE_NAME> with the name in the previous step.
+4. Copy the following scripts, replace the `<standby DB_UNIQUE_NAME>` with the name in the previous step.
 
    ```
    <copy>
@@ -93,7 +93,7 @@ Version 19.5.0.0.0
 
 ```
 
-3. change the file mode to 777.
+6. change the file mode to 777.
 
    ```
    [oracle@dbstby ~]$ chmod 777 /tmp/files.lst
@@ -102,27 +102,27 @@ Version 19.5.0.0.0
 
    
 
-4. Shutdown the database 
+7. Shutdown the database 
 
-- First collect the configuration of the database for future reference, replace the <standby DB_UNIQUE_NAME> with the name in the previous step.
+    - First collect the configuration of the database for future reference, replace the `<standby DB_UNIQUE_NAME>` with the name in the previous step.
 
-```
-<copy>srvctl config database -d <standby db_unique_name> > /tmp/<standby db_unique_name>.config</copy>
-```
+   ```
+   <copy>srvctl config database -d <standby db_unique_name> > /tmp/<standby db_unique_name>.config</copy>
+   ```
 
-- Then stop the database: 
+   - Then stop the database: 
 
-```
-<copy>srvctl stop database -d <standby db_unique_name> -o immediate</copy>
-```
+   ```
+   <copy>srvctl stop database -d <standby db_unique_name> -o immediate</copy>
+   ```
 
-4. Remove database files 
+8. Remove database files 
 
 Remove the existing data files, log files and tempfile(s). The password file will be replaced and the spfile will be reused. 
 
 As **grid** user (sudo from opc user to **grid** user) 
 
-Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'asmcmd'. 
+Edit `/tmp/files.lst` created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'asmcmd'. 
 
 ```
 [opc@dbstby ~]$ sudo su - grid
@@ -153,7 +153,7 @@ orapwORCL                                                      100% 2048    63.5
 [oracle@dbstby ~]$ exit
 ```
 
-2. Switch to **grid** user, use asmcmd, replace *ORCL_nrt1d4* with your standby db unique name.
+2. Switch to **grid** user, use asmcmd, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [grid@dbstby ~]$ asmcmd
@@ -163,7 +163,7 @@ ASMCMD-9453: failed to register password file as a CRS resource
 ASMCMD>
 ```
 
-NOTE: if you receive ASMCMD-9453: failed to register password file as a CRS resource then as the **oracle** user execute the following, replace *ORCL_nrt1d4* with your standby db unique name.
+NOTE: if you receive ASMCMD-9453: failed to register password file as a CRS resource then as the **oracle** user execute the following, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@dbstby ~]$ srvctl modify database -db <standby DB_UNIQUE_NAME> -pwfile '+DATA/ORCL_nrt1d4/orapwORCL_nrt1d4'
@@ -207,9 +207,9 @@ Database is administrator managed
 
 ## Copying the wallet file to the Cloud host. 
 
-Make sure that $ORACLE_HOME/network/admin/sqlnet.ora contains the following line wallet file location is defined as ENCRYPTION_WALLET_LOCATION parameter in sqlnet.ora 
+Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following line wallet file location is defined as `ENCRYPTION_WALLET_LOCATION` parameter in sqlnet.ora 
 
-- on-premise side
+- on-premise side.
 
 ```
 ENCRYPTION_WALLET_LOCATION =
@@ -220,13 +220,13 @@ ENCRYPTION_WALLET_LOCATION =
    )
 ```
 
-- cloud side
+- cloud side.
 
 ```
 ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
 ```
 
-1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change <standby DB_UNIQUE_NAME> to the unique name of your standby db.
+1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change `<standby DB_UNIQUE_NAME>` to the unique name of your standby db.
 
    ```
    <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>
@@ -262,7 +262,7 @@ A static listener is needed for initial instantiation of a standby database. The
 <copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
 ```
 
-- add following lines into listener.ora
+- Add following lines into listener.ora
 
 ```
 <copy>
@@ -282,7 +282,7 @@ SID_LIST_LISTENER=
 </copy>
 ```
 
-- Reload the listener
+- Reload the listener.
 
 ```
 [oracle@adgstudent1 ~]$ lsnrctl reload
@@ -304,7 +304,7 @@ The command completed successfully
 [grid@dbstby ~]$ vi $ORACLE_HOME/network/admin/listener.ora
 ```
 
-- Add following lines into listener.ora, replace *ORCL_nrt1d4* with your standby db unique name.
+- Add following lines into listener.ora, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 SID_LIST_LISTENER=
@@ -322,7 +322,7 @@ SID_LIST_LISTENER=
   )
 ```
 
-- Reload the listener
+- Reload the listener.
 
 ```
 [grid@dbstby ~]$ $ORACLE_HOME/bin/lsnrctl reload
@@ -336,7 +336,7 @@ The command completed successfully
 [grid@dbstby ~]$ 
 ```
 
-- Start the Standby database, replace *ORCL_nrt1d4* with your standby db unique name.
+- Start the Standby database, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [grid@dbstby ~]$ srvctl start database -db ORCL_nrt1d4 -startoption mount
@@ -353,7 +353,7 @@ The command completed successfully
 <copy>vi $ORACLE_HOME/network/admin/tnsnames.ora</copy>
 ```
 
-Add following lines into tnsnames.ora, use the public ip or hostname of the cloud hosts, replace *ORCL_nrt1d4* with your standby db unique name.
+Add following lines into tnsnames.ora, use the public ip or hostname of the cloud hosts, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 <copy>
@@ -380,7 +380,7 @@ ORCL_nrt1d4 =
 vi $ORACLE_HOME/network/admin/tnsnames.ora
 ```
 
-In the *ORCL_NRT1D4*(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, use the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace *ORCL_nrt1d4* with your standby db unique name.
+In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, use the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
 
 **Note:** The different database domain name will get error when doing the DML Redirection
 
@@ -416,15 +416,15 @@ ORCL =
   )
 ```
 
-3. Set TCP socket size, adjust all socket size maximums to 128MB or 134217728. This is only need set in on-premise side, the cloud side has already set by default
+3. Set TCP socket size, adjust all socket size maximums to 128MB or 134217728. This is only need set in on-premise side, the cloud side has already set by default.
 
-- From on-premise side, switch to **opc** user
+- From on-premise side, switch to **opc** user.
 
 ```
 <copy>sudo vi /etc/sysctl.conf</copy>
 ```
 
-- Search and modify following entry to the values, save and exit
+- Search and modify following entry to the values, save and exit.
 
 ```
 <copy>
@@ -433,7 +433,7 @@ net.core.wmem_max = 134217728
 </copy>
 ```
 
-- Reload and check the values
+- Reload and check the values.
 
 ```
 [opc@adgstudent1 ~]$ sudo /sbin/sysctl -p
@@ -467,7 +467,7 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 The standby database can be created from the active primary database.
 
-1. Switch to **grid** user, create pdb directory in ASM, Replace *ORCL_nrt1d4* with your standby db unique name. If the directory exist, ignore the error.
+1. Switch to **grid** user, create pdb directory in ASM, Replace `ORCL_nrt1d4` with your standby db unique name. If the directory exist, ignore the error.
 
 ```
 grid@dbstby ~]$ asmcmd
@@ -476,7 +476,7 @@ ASMCMD> mkdir DATA/ORCL_NRT1D4/orclpdb
 ASMCMD> exit
 ```
 
-2. Copy the following command, Replace *ORCL_nrt187* with your standby db unique name.
+2. Copy the following command, Replace `ORCL_nrt187` with your standby db unique name.
 
    ```
    <copy>
@@ -490,7 +490,7 @@ ASMCMD> exit
 
    
 
-3. Switch to **oracle** user from the cloud side, Run the command in sqlplus as sysdba. This will modify the db and log file name convert parameter, unset db_domain. 
+3. Switch to **oracle** user from the cloud side, Run the command in sqlplus as sysdba. This will modify the db and log file name convert parameter, unset `db_domain`. 
 
 **Note:** The different database domain name of the on-premise and cloud will cause DML Redirection error, in this lab, we don't use the database domain.
 
@@ -513,7 +513,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-3. Shutdown the database, connect with RMAN. Replace *ORCL_nrt1d4* with your standby db unique name. Then startup database nomount.
+3. Shutdown the database, connect with RMAN. Replace `ORCL_nrt1d4` with your standby db unique name. Then startup database nomount.
 
 ```
 [oracle@dbstby ~]$ srvctl stop database -d ORCL_nrt1d4 -o immediate
@@ -638,7 +638,7 @@ Recovery Manager complete.
 
 ## Clear all online and standby redo logs 
 
-1. Connect database as sysdba
+1. Connect database as sysdba.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -670,7 +670,7 @@ SQL>
 
    
 
-3. Run the command, this will clear the redo log, ignore the unknown command
+3. Run the command, this will clear the redo log, ignore the unknown command.
 
 ```
 SQL> set pagesize 0 feedback off linesize 120 trimspool on
@@ -730,67 +730,67 @@ SQL>
 
 2. Run the command on primary and standby database to enable the data guard broker.
 
-- From on-premise side,
+   - From on-premise side,
 
-```
-SQL> show parameter dg_broker_config_file;
+   ```
+   SQL> show parameter dg_broker_config_file;
 
-NAME				     TYPE	 VALUE
------------------------------------- ----------- ------------------------------
-dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
-						 /dbhome_1/dbs/dr1ORCL.dat
-dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
-						 /dbhome_1/dbs/dr2ORCL.dat
-SQL> show parameter dg_broker_start
+   NAME				     TYPE	 VALUE
+   ------------------------------------ ----------- ------------------------------
+   dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
+		   				 /dbhome_1/dbs/dr1ORCL.dat
+   dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
+	   					 /dbhome_1/dbs/dr2ORCL.dat
+   SQL> show parameter dg_broker_start
 
-NAME				     TYPE	 VALUE
------------------------------------- ----------- ------------------------------
-dg_broker_start 		     boolean	 FALSE
-SQL> alter system set dg_broker_start=true;
+   NAME				     TYPE	 VALUE
+   ------------------------------------ ----------- ------------------------------
+   dg_broker_start 		     boolean	 FALSE
+   SQL> alter system set dg_broker_start=true;
 
-System altered.
+   System altered.
 
-SQL> select pname from v$process where pname like 'DMON%';
+   SQL> select pname from v$process where pname like 'DMON%';
 
-PNAME
------
-DMON
+   PNAME
+   -----
+   DMON
 
-SQL> 
-```
+   SQL> 
+   ```
 
-- From cloud side
+   - From cloud side
 
-```
-SQL> show parameter dg_broker_config_file
+   ```
+   SQL> show parameter dg_broker_config_file
 
-NAME				     TYPE	 VALUE
------------------------------------- ----------- ------------------------------
-dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
-						 .0/dbhome_1/dbs/dr1ORCL_nrt1d4
-						 .dat
-dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
-						 .0/dbhome_1/dbs/dr2ORCL_nrt1d4
-						 .dat
-SQL> show parameter dg_broker_start
+   NAME				     TYPE	 VALUE
+   ------------------------------------ ----------- ------------------------------
+   dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
+	   					 .0/dbhome_1/dbs/dr1ORCL_nrt1d4
+		   				 .dat
+   dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
+	   					 .0/dbhome_1/dbs/dr2ORCL_nrt1d4
+		   				 .dat
+   SQL> show parameter dg_broker_start
 
-NAME				     TYPE	 VALUE
------------------------------------- ----------- ------------------------------
-dg_broker_start 		     boolean	 FALSE
-SQL> alter system set dg_broker_start=true;
+   NAME				     TYPE	 VALUE
+   ------------------------------------ ----------- ------------------------------
+   dg_broker_start 		     boolean	 FALSE
+   SQL> alter system set dg_broker_start=true;
 
-System altered.
+   System altered.
 
-SQL> select pname from v$process where pname like 'DMON%';
+   SQL> select pname from v$process where pname like 'DMON%';
 
-PNAME
------
-DMON
+   PNAME
+   -----
+   DMON
 
-SQL> 
-```
+   SQL> 
+   ```
 
-2. Register the database via DGMGRL on primary site, Replace *ORCL_nrt1d4* with your standby db unique name.
+2. Register the database via DGMGRL on primary site, Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@adgstudent1 ~]$ dgmgrl sys/Ora_DB4U#@ORCL

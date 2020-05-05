@@ -11,7 +11,6 @@ This lab assumes you have completed the following labs:
 * Environment Setup
 
 
-
 ## Open the 1521 port for the on-premise database
 
 1. From the OCI console, from the main menu, choose **Netwoking** and click **Virtual Cloud Networks**.
@@ -20,19 +19,19 @@ This lab assumes you have completed the following labs:
 
 2. In the Vitual Cloud Networks page, make sure you are in the correct Region and Compartment, there is a VCN named **example-vcn** which you create in Lab3. Click the vcn link.
 
-   <img src="images/image-20200505103954441.png" alt="image-20200505103954441" style="zoom:50%;" />
+   <img src="images/image-20200505103954441.png" alt="image-20200505103954441" style="zoom:42%;" />
 
 3. From the VCN Details page, click the subnet link.
 
-   <img src="images/image-20200505104215115.png" alt="image-20200505104215115" style="zoom:50%;" />
+   <img src="images/image-20200505104215115.png" alt="image-20200505104215115" style="zoom:42%;" />
 
 4. Then click the Default Security List link.
 
-   <img src="images/image-20200505104413862.png" alt="image-20200505104413862" style="zoom:50%;" />
+   <img src="images/image-20200505104413862.png" alt="image-20200505104413862" style="zoom:42%;" />
 
 5. Click **Add Ingress Rules**.
 
-   <img src="images/image-20200505104702210.png" alt="image-20200505104702210" style="zoom:50%;" />
+   <img src="images/image-20200505104702210.png" alt="image-20200505104702210" style="zoom:42%;" />
 
 6. Set the Soure CIDR to ```0.0.0.0/0``` and the Destination Port Range to 1521. Then click **Add Ingress Rules**.
 
@@ -59,7 +58,6 @@ This lab assumes you have completed the following labs:
    ```
 
    
-
 ## Enable ssh connect for the oracle user
 
 1. Work as opc user, edit the ssh configure file.
@@ -366,7 +364,7 @@ Version 19.5.0.0.0
 [oracle@primary ~]$
 ```
 
-2. Edit the sqlnet.ora file.
+3. Edit the sqlnet.ora file.
 
 ```
 <copy>vi $ORACLE_HOME/network/admin/sqlnet.ora</copy>
@@ -387,7 +385,7 @@ SQLNET.CRYPTO_CHECKSUM_TYPES_CLIENT=(SHA1)
 </copy>
 ```
 
-3. Check the network service banner again, the network encryption is enable now.
+4. Check the network service banner again, the network encryption is enable now.
 
 ```
 [oracle@workshop ~]$ sqlplus / as sysdba
@@ -492,7 +490,7 @@ SQL>
 
 
 
-## Change redlog size and create standby log
+## Change redo log size and create standby log
 
 1. Change the redo log size to 1024M according to the best practice. Check the status of the redo log first.
 
@@ -592,7 +590,6 @@ SQL> select group#,thread#,bytes from v$standby_log;
 
 SQL> 
 ```
-
 
 
 ## Alter the init parameters for best practice

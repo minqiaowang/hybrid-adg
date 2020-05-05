@@ -2,11 +2,11 @@
 
 A failover is an unplanned event that assumes the primary database is lost. The standby database is converted to a primary database immediately. A failover might result in some data loss when you use **Maximum Performance** protection mode. After a failover the old primary database must be reinstated as a physical standby which is made simpler with flashback database and Data Guard broker enabled. To execute a failover and reinstatement execute the following in Data Guard Broker. 
 
-##1. Setup the current primary database flashback on
+## Setup the current primary database flashback on
 
 In the previous lab, you have done the data guard switch over. Now, the current primary database is the DBCS and the current standby database in the on-premise database.
 
-- Check the flashback status of the current primary database
+1. Check the flashback status of the current primary database
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -30,7 +30,7 @@ READ WRITE	     PRIMARY	      NO
 SQL> 
 ```
 
-- Setup database flashback on.
+2. Setup database flashback on.
 
 ```
 SQL> shutdown immediate;
@@ -70,9 +70,9 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-##2. Failover
+## Failover
 
-- Connect with DGMGRL, validate the primary and standby database
+1. Connect with DGMGRL, validate the primary and standby database
 
 ```
 [oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U#@orcl
@@ -141,7 +141,7 @@ DGMGRL> validate database orcl
 DGMGRL>  
 ```
 
-- Failover.
+2. Failover to current standby.
 
 ```
 DGMGRL> failover to orcl
@@ -167,9 +167,9 @@ DGMGRL>
 
 
 
-## 3. Reinstate the old primary database
+## Reinstate the old primary database
 
-- In the old primary host, connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
+1. In the old primary host, connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba  
@@ -203,7 +203,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$  
 ```
 
-- Reinstate, replace *ORCL_nrt1d4* with your old primary db unique name.
+2. Reinstate, replace `ORCL_nrt1d4` with your old primary db unique name.
 
 ```
 DGMGRL> reinstate database orcl_nrt1d4
@@ -226,7 +226,7 @@ SUCCESS   (status updated 21 seconds ago)
 DGMGRL> 
 ```
 
-- Check the status of the new standby database
+3. Check the status of the new standby database
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba

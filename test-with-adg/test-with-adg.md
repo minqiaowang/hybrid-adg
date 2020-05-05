@@ -2,9 +2,9 @@
 
 Now we can run some testing with the ADG.
 
-##Test transaction replication
+## Test transaction replication
 
-1. From on-premise side, create a test user in orclpdb
+1. From on-premise side, create a test user in orclpdb.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -48,7 +48,7 @@ User altered.
 SQL>exit;
 ```
 
-2. Connect with testuser
+2. Connect with testuser.
 
 ```
 [oracle@dbstby ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
@@ -77,7 +77,7 @@ Commit complete.
 SQL>  
 ```
 
-3. From cloud side, open the standby database as read only
+3. From cloud side, open the standby database as read only.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -118,7 +118,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-4. From cloud side, connect as testuser to orclpdb
+4. From cloud side, connect as testuser to orclpdb.
 
 ```
 [oracle@dbstby ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
@@ -145,13 +145,13 @@ SQL>
 
 
 
-##Test DML Redirection
+## Test DML Redirection
 
 Starting 19c, We can run DML operations on Active Data Guard standby databases. This enables you to run read-mostly applications, which occasionally execute DMLs, on the standby database.
 
 Automatic redirection of DML operations to the primary can be configured at the system level or the session level. The session level setting overrides the system level
 
-1. From cloud side, connect to orclpdb as testuser
+1. From cloud side, connect to orclpdb as testuser.
 
 ```
 SQL> insert into test values(2,'line2');
@@ -210,7 +210,7 @@ At any time, you can manually execute a Data Guard switchover (planned event) or
 
 Switchovers are always a planned event that guarantees no data is lost. To execute a switchover, perform the following in Data Guard Broker 
 
-- Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace *ORCL_nrt1d4* with your standby db unique name.
+- Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U#@orcl
@@ -254,7 +254,7 @@ DGMGRL> validate database ORCL_nrt1d4
 DGMGRL> 
 ```
 
-- Switch over to standby database, replace *ORCL_nrt1d4* with your standby db unique name.
+- Switch over to standby database, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 DGMGRL> switchover to orcl_nrt1d4

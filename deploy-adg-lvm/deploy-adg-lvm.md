@@ -2,7 +2,7 @@
 
 This procedure is basically same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup data guard from an SI on-premises to an SI in the cloud infrastructure. If you want to setup data guard from an SI on-premises to to a 2-Node RAC in cloud infrastructure or RAC on-premises to an SI in the cloud infrastructure. Please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
 
-**Note: The following steps is for the cloud database using LVM for the storage management in Lab4. If you use ASM for the storage, please use another Lab for the ASM.**
+**Note: The following steps is for the cloud database using LVM for the storage management in Lab5. If you use ASM for the storage, please use another Lab for the ASM.**
 
 ##Manually Delete the Database Created by Tooling 
 
@@ -12,7 +12,7 @@ To delete the starter database, use the manual method of removing the database f
 
 To manually delete the database on the cloud host, run the steps below.
 
-1. Connect to the DBCS VM which you created in Lab4 with opc user. Use putty tools(Windows) or command line(Mac, linux)
+1. Connect to the DBCS VM which you created in Lab5 with opc user. Use putty tools(Windows) or command line(Mac, linux)
 
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
@@ -28,7 +28,7 @@ To manually delete the database on the cloud host, run the steps below.
 
    
 
-3. Get the current db_unique_name for the Cloud database. 
+3. Get the current `db_unique_name` for the Cloud database. 
 
 ```
 SQL> select DB_UNIQUE_NAME from v$database;
@@ -38,7 +38,7 @@ DB_UNIQUE_NAME
 ORCL_nrt187
 ```
 
-4. Copy the following scripts, replace the <standby DB_UNIQUE_NAME> with the name in the previous step.
+4. Copy the following scripts, replace the `<standby DB_UNIQUE_NAME>` with the name in the previous step.
 
    ```
    <copy>
@@ -87,7 +87,7 @@ SQL> create pfile='/tmp/<standby DB_UNIQUE_NAME>.pfile' from spfile;
 SQL>  
 ```
 
-6. Shutdown the database 
+6. Shutdown the database. 
 
 ```
 SQL> shutdown immediate;
@@ -102,24 +102,24 @@ Version 19.5.0.0.0
 
 7. Remove database files 
 
-Remove the existing data files, log files and tempfile(s). The password file will be replaced and the spfile will be reused. 
+ Remove the existing data files, log files and tempfile(s). The password file will be replaced and the spfile will be reused. 
 
-Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'rm'. 
+ Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'rm'. 
 
-```
-[oracle@dbstby ~]$ chmod 777 /tmp/files.lst
-[oracle@dbstby ~]$ vi /tmp/files.lst
-[oracle@dbstby ~]$ . /tmp/files.lst
-[oracle@dbstby ~]$ 
-```
+ ```
+ [oracle@dbstby ~]$ chmod 777 /tmp/files.lst
+ [oracle@dbstby ~]$ vi /tmp/files.lst
+ [oracle@dbstby ~]$ . /tmp/files.lst
+ [oracle@dbstby ~]$ 
+ ```
 
-All files for the starter database have now been removed. 
+ All files for the starter database have now been removed. 
 
 
 
 ## Copy the Password File to the Cloud host 
 
-As **oracle** user, copy the on-premise database password file to cloud host $ORACLE_HOME/dbs directory. 
+As **oracle** user, copy the on-premise database password file to cloud host `$ORACLE_HOME/dbs` directory. 
 
 1. Copy following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.
 
@@ -139,26 +139,26 @@ orapwORCL                                                            100% 2048  
 
 ## Copying the wallet file to the Cloud host. 
 
-Make sure that $ORACLE_HOME/network/admin/sqlnet.ora contains the following line wallet file location is defined as ENCRYPTION_WALLET_LOCATION parameter in sqlnet.ora.
+Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following line wallet file location is defined as `ENCRYPTION_WALLET_LOCATION` parameter in sqlnet.ora.
 
-- on-premise side
+   - on-premise side
 
-```
-ENCRYPTION_WALLET_LOCATION =
-   (SOURCE = (METHOD = FILE)
-     (METHOD_DATA =
-      (DIRECTORY = /u01/app/oracle/admin/ORCL/wallet)
-     )
-   )
-```
+   ```
+   ENCRYPTION_WALLET_LOCATION =
+      (SOURCE = (METHOD = FILE)
+        (METHOD_DATA =
+         (DIRECTORY = /u01/app/oracle/admin/ORCL/wallet)
+        )
+      )
+   ```
 
-- cloud side
+   - cloud side
 
-```
-ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
-```
+   ```
+   ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
+   ```
 
-1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change <standby DB_UNIQUE_NAME> to the unique name of your standby db.
+1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change `<standby DB_UNIQUE_NAME>` to the unique name of your standby db.
 
    ```
    <copy>
@@ -189,83 +189,83 @@ A static listener is needed for initial instantiation of a standby database. The
 
 1. From on-premise side
 
-- Switch to the **oracle** user, edit listener.ora
+   - Switch to the **oracle** user, edit listener.ora
 
-```
-<copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
-```
+   ```
+   <copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
+   ```
 
-- Add following lines into listener.ora
+   - Add following lines into listener.ora
 
-```
-SID_LIST_LISTENER=
-  (SID_LIST=
-    (SID_DESC=
-     (GLOBAL_DBNAME=ORCL)
-     (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
-     (SID_NAME=ORCL)
-    )
-    (SID_DESC=
-     (GLOBAL_DBNAME=ORCL_DGMGRL)
-     (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
-     (SID_NAME=ORCL)
-    )
-  )
-```
+   ```
+   SID_LIST_LISTENER=
+     (SID_LIST=
+       (SID_DESC=
+        (GLOBAL_DBNAME=ORCL)
+        (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
+        (SID_NAME=ORCL)
+       )
+       (SID_DESC=
+        (GLOBAL_DBNAME=ORCL_DGMGRL)
+        (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
+        (SID_NAME=ORCL)
+       )
+     )
+   ```
 
-- Reload the listener
+   - Reload the listener
 
-```
-[oracle@dbstby ~]$ lsnrctl reload
+   ```
+   [oracle@dbstby ~]$ lsnrctl reload
 
-LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
+   LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
 
-Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+   Copyright (c) 1991, 2019, Oracle.  All rights reserved.
 
-Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=adgstudent1)(PORT=1521)))
-The command completed successfully
-[oracle@dbstby ~]$ 
-```
+   Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=adgstudent1)(PORT=1521)))
+   The command completed successfully
+   [oracle@dbstby ~]$ 
+   ```
 
 2. From cloud side
 
-- Switch to the **oracle** user, edit listener.ora
+   - Switch to the **oracle** user, edit listener.ora
 
-```
-<copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
-```
+   ```
+   <copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
+   ```
 
-- add following lines into listener.ora, replace *ORCL_nrt1d4* with your standby db unique name.
+   - add following lines into listener.ora, replace `ORCL_nrt1d4` with your standby db unique name.
 
-```
-SID_LIST_LISTENER=
-  (SID_LIST=
-    (SID_DESC=
-     (GLOBAL_DBNAME=ORCL_nrt1d4)
-     (ORACLE_HOME=/u01/app/19.0.0.0/grid)
-     (SID_NAME=ORCL)
-    )
-    (SID_DESC=
-     (GLOBAL_DBNAME=ORCL_nrt1d4_DGMGRL)
-     (ORACLE_HOME=/u01/app/19.0.0.0/grid)
-     (SID_NAME=ORCL)
-    )
-  )
-```
+   ```
+   SID_LIST_LISTENER=
+     (SID_LIST=
+       (SID_DESC=
+        (GLOBAL_DBNAME=ORCL_nrt1d4)
+        (ORACLE_HOME=/u01/app/19.0.0.0/grid)
+        (SID_NAME=ORCL)
+       )
+       (SID_DESC=
+        (GLOBAL_DBNAME=ORCL_nrt1d4_DGMGRL)
+        (ORACLE_HOME=/u01/app/19.0.0.0/grid)
+        (SID_NAME=ORCL)
+       )
+     )
+   ```
 
-- Reload the listener
+   - Reload the listener
 
-```
-[oracle@dbstby ~]$ $ORACLE_HOME/bin/lsnrctl reload
+   ```
+   [oracle@dbstby ~]$ $ORACLE_HOME/bin/lsnrctl reload
 
-LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:39:12
+   LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:39:12
 
-Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+   Copyright (c) 1991, 2019, Oracle.  All rights reserved.
 
-Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=LISTENER)))
-The command completed successfully
-[oracle@dbstby ~]$ 
-```
+   Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=LISTENER)))
+   The command completed successfully
+   [oracle@dbstby ~]$ 
+   ```
 
 3. Mount the Standby database.
 
@@ -304,7 +304,7 @@ Version 19.5.0.0.0
 <copy>vi $ORACLE_HOME/network/admin/tnsnames.ora</copy>
 ```
 
-Add following lines into tnsnames.ora, use the public ip or hostname of the cloud hosts, replace *ORCL_nrt1d4* with your standby db unique name.
+Add following lines into tnsnames.ora, use the public ip or hostname of the cloud hosts, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 ORCL_nrt1d4 =
@@ -329,7 +329,7 @@ ORCL_nrt1d4 =
 vi $ORACLE_HOME/network/admin/tnsnames.ora
 ```
 
-In the *ORCL_NRT1D4*(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, use the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace *ORCL_nrt1d4* with your standby db unique name.
+In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, use the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
 
 **Note:** The different database domain name will get error when doing the DML Redirection, in this lab, we don't use database domain.
 
@@ -416,7 +416,7 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 The standby database can be created from the active primary database.
 
-1. From Cloud side, switch to **oracle** user, create pdb directory, Replace *ORCL_nrt187* with your standby db unique name. If the directory exist, ignore the error
+1. From Cloud side, switch to **oracle** user, create pdb directory, Replace `ORCL_nrt187` with your standby db unique name. If the directory exist, ignore the error
 
 ```
 [oracle@dbstby ~]$ mkdir /u02/app/oracle/oradata/ORCL_nrt187/pdbseed
@@ -425,7 +425,7 @@ mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt187/pdbseed': Fi
 [oracle@dbstby ~]$ 
 ```
 
-2. Copy the following command, Replace *ORCL_nrt187* with your standby db unique name.
+2. Copy the following command, Replace `ORCL_nrt187` with your standby db unique name.
 
    ```
    <copy>
@@ -438,7 +438,7 @@ mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt187/pdbseed': Fi
 
    
 
-3. Run the command in sqlplus as sysdba. This will modify the db and log file name convert parameter, unset db_domain. 
+3. Run the command in sqlplus as sysdba. This will modify the db and log file name convert parameter, unset `db_domain`. 
 
 **Note:** The different database domain name of the on-premise and cloud will cause DML Redirection error, in this lab, we don't use the database domain.
 
@@ -741,7 +741,7 @@ DMON
 SQL> 
 ```
 
-2. Register the database via DGMGRL on primary site, Replace *ORCL_nrt1d4* with your standby db unique name.
+2. Register the database via DGMGRL on primary site, Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@ORCL

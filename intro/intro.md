@@ -16,7 +16,7 @@ An effective disaster recovery plan can be costly due to the need to establish, 
 
 During this Lab, You will learn how to setup Hybrid Data Guard to Oracle Cloud Infrastructure. You will configure the Production Database on Premises and Disaster Recovery with DBaaS VM shapes in Oracle Cloud Infrastructure.
 
-In a Data Guard configuration, the primary and standby must be able to communicate bi-directionally. This requires additional network configuration to allow access to ports between the systems. 
+In a Data Guard configuration, the primary and standby must be able to communicate bi-directionally. This requires additional network configuration to allow access to ports between the hosts. 
 
 ##Secure Connectivity
 
@@ -30,17 +30,17 @@ IPSec stands for Internet Protocol Security or IP Security. IPSec is a protocol 
 
 Oracle Cloud Infrastructure FastConnect provides a method to create a dedicated, private connection between your data center and Oracle Cloud Infrastructure. FastConnect provides higher-bandwidth options and a more reliable and consistent networking experience compared to internet-based connections. 
 
-##Public Internet Connectivity
+## Public Internet Connectivity
 
 Connectivity between OCI and on-premises can be achieved through the public internet as well. This method is not by default secure and additional steps must be taken to secure transmissions. The lab steps assumes public internet connectivity. 
 
-**In this Lab, You will using a compute instance in OCI to simulate the on-premise database, which deploy in one region(For exmaple: Seoul). The Standby Cloud Database deploy into another region(For example: Tokyo). The primary and the standby database commuicate through Public Internet Connectivity.**
+**Note:** In this Lab, You will using a compute instance in OCI to simulate the on-premise database, which deploy in one region(For exmaple: Seoul). The Standby Cloud Database deploy into another region(For example: Tokyo). The primary and the standby database commuicate through Public Internet Connectivity.
 
-When provisioning Database Cloud Services in OCI, there are 2 options to for the storage management. one is **Oracle Grid Infrastruction** which using ASM to manage the database files. The other one is **Logic Volume Manager** which using File System to manage the database files. In the Lab4, please choose the right one accroding to your instructor. When doing the Lab8, choose Lab8A for LVM or Lab8B for ASM.
+When provisioning Database Cloud Services in OCI, there are 2 options to for the storage management. one is **Oracle Grid Infrastruction** which using ASM to manage the database files. The other one is **Logic Volume Manager** which using File System to manage the database files. In the Lab5, please choose the right one accroding to your instructor. When doing the Lab8, choose Lab7A for LVM or Lab7B for ASM.
 
 
 
-##Acknowledgements
+## Acknowledgements
 
 - **Authors/Contributors** - Minqiao Wang, DB Product Management, May 2020
 - **Last Updated By/Date** - 
