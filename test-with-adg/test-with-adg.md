@@ -2,6 +2,12 @@
 
 Now we can run some testing with the ADG.
 
+## Lab Prerequisites
+
+This lab assumes you have already completed the following labs:
+
+- Deploy Active Data Guard with LVM or ASM
+
 ## Test transaction replication
 
 1. From on-premise side, create a test user in orclpdb.

@@ -2,6 +2,14 @@
 
 This procedure is basically same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup data guard from an SI on-premises to an SI in the cloud infrastructure. If you want to setup data guard from an SI on-premises to to a 2-Node RAC in cloud infrastructure or RAC on-premises to an SI in the cloud infrastructure. Please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
 
+##Lab Prerequisites
+
+This lab assumes you have already completed the following labs:
+
+- Prepare On Premise Database(choose ASM)
+- Provision DBCS on OCI
+- Setup Connectivity between on-premise and DBCS
+
 **Note: The following steps is for the cloud database using ASM for the storage management in Lab5. If you use LVM for the storage, please use another Lab for the LVM.**
 
 ##Manually Delete the Database Created by Tooling 
