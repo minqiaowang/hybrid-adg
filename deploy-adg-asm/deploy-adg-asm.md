@@ -153,7 +153,7 @@ orapwORCL                                                      100% 2048    63.5
 [oracle@dbstby ~]$ exit
 ```
 
-2. Switch to **grid** user, use asmcmd, replace `ORCL_nrt1d4` with your standby db unique name.
+3. Switch to **grid** user, use asmcmd, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [grid@dbstby ~]$ asmcmd
@@ -513,7 +513,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-3. Shutdown the database, connect with RMAN. Replace `ORCL_nrt1d4` with your standby db unique name. Then startup database nomount.
+4. Shutdown the database, connect with RMAN. Replace `ORCL_nrt1d4` with your standby db unique name. Then startup database nomount.
 
 ```
 [oracle@dbstby ~]$ srvctl stop database -d ORCL_nrt1d4 -o immediate
@@ -540,7 +540,7 @@ Redo Buffers                  24399872 bytes
 RMAN> 
 ```
 
-4. Restore control file from on-premise database and mount the cloud database.
+5. Restore control file from on-premise database and mount the cloud database.
 
 ```
 RMAN> restore standby controlfile from service 'ORCL';
@@ -565,7 +565,7 @@ Statement processed
 RMAN> 
 ```
 
-5. Now, restore database from on-premise database.
+6. Now, restore database from on-premise database.
 
 ```
 RMAN> restore database from service 'ORCL' section size 5G;
@@ -618,7 +618,7 @@ Finished restore at 01-FEB-20
 RMAN> 
 ```
 
-6. Shutdown and mount the database again.
+7. Shutdown and mount the database again.
 
 ```
 RMAN> shutdown immediate

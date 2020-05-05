@@ -36,7 +36,7 @@ Connectivity between OCI and on-premises can be achieved through the public inte
 
 **Note:** In this Lab, You will using a compute instance in OCI to simulate the on-premise database, which deploy in one region(For exmaple: Seoul). The Standby Cloud Database deploy into another region(For example: Tokyo). The primary and the standby database commuicate through Public Internet Connectivity.
 
-When provisioning Database Cloud Services in OCI, there are 2 options to for the storage management. one is **Oracle Grid Infrastruction** which using ASM to manage the database files. The other one is **Logic Volume Manager** which using File System to manage the database files. In the Lab5, please choose the right one accroding to your instructor. When doing the Lab8, choose Lab7A for LVM or Lab7B for ASM.
+When provisioning Database Cloud Services in OCI, there are 2 options to for the storage management. One is **Oracle Grid Infrastruction** which using ASM to manage the database files. The other one is **Logic Volume Manager** which using File System to manage the database files. In the Lab5, please choose the right one accroding to your instructor. When doing the Lab7, choose Lab7A for LVM or Lab7B for ASM.
 
 
 

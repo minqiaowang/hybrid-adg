@@ -44,9 +44,7 @@ This lab assumes you have completed the following labs:
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
    ```
-
-   
-
+  
 8. Copy and run the following command to open the 1521 port in the VM.
 
    ```

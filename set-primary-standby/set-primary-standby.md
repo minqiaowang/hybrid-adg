@@ -19,23 +19,23 @@ In this Lab, you can use 2 termial windows, one connect to the on-premise host, 
 ssh -i labkey opc@xxx.xxx.xxx.xxx
 ```
 
-2. Edit /etc/hosts in both sides.
+2. Edit `/etc/hosts` in both sides.
 
 ```
 <copy>sudo vi /etc/hosts</copy>
 ```
 
-     - From on-premise side, add the cloud host **public ip** and host name in the file like the following
+   - From on-premise side, add the cloud host **public ip** and host name in the file like the following:
 
-     ```
-     xxx.xxx.xxx.xxx dbstby.sub01230246570.myvcn.oraclevcn.com  dbstby
-     ```
+   ```
+   xxx.xxx.xxx.xxx dbstby.sub01230246570.myvcn.oraclevcn.com  dbstby
+   ```
 
-     - From the cloud side, add the on-premise host **public ip** and host name in the file like the following
+   - From the cloud side, add the on-premise host **public ip** and host name in the file like the following:
 
-     ```
-     xxx.xxx.xxx.xxx workshop.subnet1.examplevcn.oraclevcn.com workshop
-     ```
+   ```
+   xxx.xxx.xxx.xxx workshop.subnet1.examplevcn.oraclevcn.com workshop
+   ```
 
 3. Valide the connectivity, install telnet in both side.
 
@@ -43,30 +43,30 @@ ssh -i labkey opc@xxx.xxx.xxx.xxx
 <copy>sudo yum -y install telnet</copy>
 ```
 
-     - From the on-premise side, telnet the public ip of the cloud host, enter ^] and return to exist.
+   - From the on-premise side, telnet the public ip of the cloud host, enter `^]` and return to exist. 
 
-     ```
+    ```
      [opc@adgstudent1 ~]$ telnet xxx.xxx.xxx.xxx 1521
      Trying 158.101.136.61...
      Connected to 158.101.136.61.
      Escape character is '^]'.
      ^]
-
-     telnet> q
+         
+    telnet> q
      Connection closed.
      [opc@adgstudent1 ~]$ 
      ```
 
-     - From the cloud side, telnet the public ip of the on-premise host, enter ^] and return to exist.
+   - From the cloud side, telnet the public ip of the on-premise host, enter `^]` and return to exist. 
 
-     ```
+    ```
      [opc@dbstby ~]$ telnet xxx.xxx.xxx.xxx 1521
      Trying 140.238.18.190...
      Connected to 140.238.18.190.
      Escape character is '^]'.
      ^]
-
-     telnet> q
+         
+    telnet> q
      Connection closed.
      [opc@dbstby ~]$
      ```
@@ -164,7 +164,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      [oracle@dbstby ~]$ 
      ```
 
-     - From on-premise side, edit the **authorized_keys** file, copy all the content in the id_rsa.pub into it, save and close
+     - From on-premise side, edit the `authorized_keys` file, copy all the content in the `id_rsa.pub` into it, save and close
 
      ```
      <copy>vi .ssh/authorized_keys</copy>

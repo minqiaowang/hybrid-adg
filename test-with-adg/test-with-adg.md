@@ -210,7 +210,7 @@ At any time, you can manually execute a Data Guard switchover (planned event) or
 
 Switchovers are always a planned event that guarantees no data is lost. To execute a switchover, perform the following in Data Guard Broker 
 
-- Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
+1. Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U#@orcl
@@ -254,7 +254,7 @@ DGMGRL> validate database ORCL_nrt1d4
 DGMGRL> 
 ```
 
-- Switch over to standby database, replace `ORCL_nrt1d4` with your standby db unique name.
+2. Switch over to standby database, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 DGMGRL> switchover to orcl_nrt1d4
@@ -290,7 +290,7 @@ SUCCESS   (status updated 104 seconds ago)
 DGMGRL> 
 ```
 
-- Check from on-premise side.
+3. Check from on-premise side.
 
 ```
 [oracle@adgstudent1 ~]$ sqlplus / as sysdba
@@ -320,7 +320,7 @@ READ ONLY WITH APPLY PHYSICAL STANDBY
 SQL> 
 ```
 
-- Check from cloud side.
+4. Check from cloud side.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba

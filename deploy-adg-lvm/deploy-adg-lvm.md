@@ -235,7 +235,7 @@ A static listener is needed for initial instantiation of a standby database. The
    <copy>vi $ORACLE_HOME/network/admin/listener.ora</copy>
    ```
 
-   - add following lines into listener.ora, replace `ORCL_nrt1d4` with your standby db unique name.
+   - Add following lines into listener.ora, replace `ORCL_nrt1d4` with your standby db unique name.
 
    ```
    SID_LIST_LISTENER=
@@ -458,7 +458,7 @@ System altered.
 SQL> 
 ```
 
-3. Shutdown the database, connect with RMAN. Then startup database nomount.
+4. Shutdown the database, connect with RMAN. Then startup database nomount.
 
 ```
 SQL> shutdown immediate
@@ -493,7 +493,7 @@ Redo Buffers                  24399872 bytes
 RMAN> 
 ```
 
-4. Restore control file from on-premise database and mount the cloud database.
+5. Restore control file from on-premise database and mount the cloud database.
 
 ```
 RMAN> restore standby controlfile from service 'ORCL';
@@ -519,7 +519,7 @@ Statement processed
 RMAN> 
 ```
 
-5. Now, restore database from on-premise database.
+6. Now, restore database from on-premise database.
 
 ```
 RMAN> restore database from service 'ORCL' section size 5G;
@@ -570,7 +570,7 @@ Finished restore at 01-FEB-20
 RMAN> 
 ```
 
-6. Shutdown the database, connect to sqlplus as sysdba and mount the database again.
+7. Shutdown the database, connect to sqlplus as sysdba and mount the database again.
 
 ```
 RMAN> shutdown immediate
@@ -741,7 +741,7 @@ DMON
 SQL> 
 ```
 
-2. Register the database via DGMGRL on primary site, Replace `ORCL_nrt1d4` with your standby db unique name.
+3. Register the database via DGMGRL on primary site, Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@ORCL

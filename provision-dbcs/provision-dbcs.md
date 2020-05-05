@@ -93,7 +93,7 @@ This lab assumes you have already completed the following labs:
 
     <img src="images/image-20200130181300472.png" alt="image-20200130181300472" style="zoom:50%;" />
 
-    - Enter the password like Ora_DB4U
+    - Enter the password like `Ora_DB4U`
     - Workload type: OLTP
 
     <img src="images/image-20200130181651405.png" alt="image-20200130181651405" style="zoom:50%;" />
