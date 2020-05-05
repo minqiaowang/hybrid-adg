@@ -4,7 +4,7 @@ Oracle’s Maximum Availability Architecture (Oracle MAA) is the best practices 
 
 An effective disaster recovery plan can be costly due to the need to establish, equip and manage a remote data center. The Oracle Cloud offers a great alternative for hosting standby databases for customers who do not have a DR site or who prefer not to deal with the cost or complexity of managing a remote data center. Existing production databases remain on-premises and standby databases used for DR are deployed on the Oracle Cloud. This mode of deployment is commonly referred to as a hybrid cloud implementation. 
 
-Benefits of Hybrid Standby in the Cloud 
+##Benefits of Hybrid Standby in the Cloud 
 
 1. Cloud data center and infrastructure is managed by Oracle 
 
@@ -18,7 +18,7 @@ During this Lab, You will learn how to setup Hybrid Data Guard to Oracle Cloud I
 
 In a Data Guard configuration, the primary and standby must be able to communicate bi-directionally. This requires additional network configuration to allow access to ports between the systems. 
 
-**1. Secure Connectivity **
+###**1. Secure Connectivity **
 
 There are two options to privately connect your cloud network to the on-premises network, IPSec VPN and FastConnect. Each of these methods require a Dynamic Routing Gateway (DRG) to connect to your Virtual Cloud Network (VCN). Details for creating a DRG can be found in the documentation at this link. 
 
@@ -30,7 +30,7 @@ IPSec stands for Internet Protocol Security or IP Security. IPSec is a protocol 
 
 Oracle Cloud Infrastructure FastConnect provides a method to create a dedicated, private connection between your data center and Oracle Cloud Infrastructure. FastConnect provides higher-bandwidth options and a more reliable and consistent networking experience compared to internet-based connections. 
 
-**2. Public Internet Connectivity **
+###**2. Public Internet Connectivity **
 
 Connectivity between OCI and on-premises can be achieved through the public internet as well. This method is not by default secure and additional steps must be taken to secure transmissions. The lab steps assumes public internet connectivity. 
 
