@@ -2,7 +2,7 @@
 
 In this lab, you will provision a Database system on OCI to act as the standby database in the cloud. You can provision the Cloud database in the different region with the on-premise database.
 
-### Lab Prerequisites
+## Lab Prerequisites
 
 This lab assumes you have already completed the following labs:
 
@@ -47,7 +47,7 @@ This lab assumes you have already completed the following labs:
 
 
 
-##Create the DB system
+## Create the DB system
 
 1. Open the navigation menu. Under **Database**, click **Bare Metal, VM, and Exadata**.
 

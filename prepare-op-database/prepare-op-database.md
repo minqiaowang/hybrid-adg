@@ -2,13 +2,13 @@
 
 In this lab, You will use a compute instance in the OCI to simulate the on-premise database. In the Lab3, the Oracle 19c database has been installed and patch to 19.5.0. The on-premise database can deploy into different region with the cloud database.
 
-### Lab Prerequisites
+## Lab Prerequisites
 
 This lab assumes you have completed the following labs:
 
-* Lab: Login to Oracle Cloud
-* Lab: Generate SSH Key
-* Lab: Environment Setup
+* Register for Free Tier
+* Generate SSH Key
+* Environment Setup
 
 
 
@@ -20,19 +20,19 @@ This lab assumes you have completed the following labs:
 
 2. In the Vitual Cloud Networks page, make sure you are in the correct Region and Compartment, there is a VCN named **example-vcn** which you create in Lab3. Click the vcn link.
 
-   <img src="images/image-20200505103954441.png" alt="image-20200505103954441" style="zoom:80%;" />
+   <img src="images/image-20200505103954441.png" alt="image-20200505103954441" style="zoom:50%;" />
 
 3. From the VCN Details page, click the subnet link.
 
-   <img src="images/image-20200505104215115.png" alt="image-20200505104215115" style="zoom:80%;" />
+   <img src="images/image-20200505104215115.png" alt="image-20200505104215115" style="zoom:50%;" />
 
 4. Then click the Default Security List link.
 
-   <img src="images/image-20200505104413862.png" alt="image-20200505104413862" style="zoom:80%;" />
+   <img src="images/image-20200505104413862.png" alt="image-20200505104413862" style="zoom:50%;" />
 
 5. Click **Add Ingress Rules**.
 
-   <img src="images/image-20200505104702210.png" alt="image-20200505104702210" style="zoom:80%;" />
+   <img src="images/image-20200505104702210.png" alt="image-20200505104702210" style="zoom:50%;" />
 
 6. Set the Soure CIDR to ```0.0.0.0/0``` and the Destination Port Range to 1521. Then click **Add Ingress Rules**.
 
@@ -40,7 +40,7 @@ This lab assumes you have completed the following labs:
 
    You are now open the 1521 port for the public subnet.
 
-7. Connect to the VM which you created in Lab3 with opc user. Use putty tools(Windows) or command line(Mac, linux)
+7. Connect to the VM which you created in Lab3 with opc user. Use putty tools(Windows) or command line(Mac, linux).
 
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
@@ -62,20 +62,20 @@ This lab assumes you have completed the following labs:
 
 ## Enable ssh connect for the oracle user
 
-1. Work as opc user, edit the ssh configure file
+1. Work as opc user, edit the ssh configure file.
 
 ```
 <copy>sudo vi /etc/ssh/sshd_config</copy>
 ```
 
-2. Add the following lines in the file
+2. Add the following lines in the file.
 
 ```
 <copy>AllowUsers oracle 
 AllowUsers opc</copy>
 ```
 
-3. Restart the ssh service
+3. Restart the ssh service.
 
 ```
 <copy>sudo systemctl restart sshd.service</copy>
@@ -83,8 +83,8 @@ AllowUsers opc</copy>
 
 
 
-##Enable TDE
-
+## Enable TDE
+ 
 Oracle MAA best practice recommends using Oracle Transparent Data Encryption (TDE) to encrypt both primary and standby databases to ensure all data is encrypted at-rest. Data can be converted during the migration process but it’s highly recommended to convert to TDE prior to migration to provide the most secure Data Guard environment. 
 
 1. Switch to the **oracle** user.
@@ -95,7 +95,7 @@ Oracle MAA best practice recommends using Oracle Transparent Data Encryption (TD
 
    
 
-2. Create a directory for the wallet
+2. Create a directory for the wallet.
 
 ```
 <copy>mkdir -p /u01/app/oracle/admin/ORCL/wallet</copy>
@@ -107,7 +107,7 @@ Oracle MAA best practice recommends using Oracle Transparent Data Encryption (TD
 <copy>vi $ORACLE_HOME/network/admin/sqlnet.ora</copy>
 ```
 
-4. Add following lines to the file, save and exit
+4. Add following lines to the file, save and exit.
 
 ```
 <copy>
@@ -120,7 +120,7 @@ ENCRYPTION_WALLET_LOCATION =
 </copy>
 ```
 
-5. Create keystore
+5. Connect to sqlplus as sysdba, create keystore.
 
 ```
 [oracle@workshop ~]$ sqlplus / as sysdba
@@ -142,7 +142,7 @@ keystore altered.
 SQL> 
 ```
 
-6. Open the keystore
+6. Open the keystore.
 
 ```
 SQL> administer key management set keystore open identified by "Ora_DB4U"  container=all;
@@ -152,7 +152,7 @@ keystore altered.
 SQL> 
 ```
 
-7. Create master key
+7. Create master key.
 
 ```
 SQL> administer key management set key identified by "Ora_DB4U" with backup using 'backup' container=all;
@@ -162,7 +162,7 @@ keystore altered.
 SQL>
 ```
 
-8. Verify the keystore, you can see the wallet is openned by password
+8. Verify the keystore, you can see the wallet is openned by password.
 
 ```
 SQL> select * from v$encryption_wallet;
@@ -212,7 +212,7 @@ OPEN			       PASSWORD 	    SINGLE    UNITED   NO
 SQL> 
 ```
 
-9. Make keystore autologin
+9. Make keystore autologin.
 
 ```
 SQL> administer key management create auto_login keystore from keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";
@@ -222,7 +222,7 @@ keystore altered.
 SQL> 
 ```
 
-10. Reset wallet from PASSWORD to AUTOLOGIN mode
+10. Reset wallet from PASSWORD to AUTOLOGIN mode.
 
 ```
 SQL> administer key management set keystore close identified by "Ora_DB4U" container=all;
@@ -232,7 +232,7 @@ keystore altered.
 SQL> 
 ```
 
-11. Verify the keystore again, now you can see the wallet is configure to autologin
+11. Verify the keystore again, now you can see the wallet is configure to autologin.
 
 ```
 SQL> select * from v$encryption_wallet;
@@ -288,7 +288,7 @@ SQL>
 
 According to the best practice, you should encrypt all the data files. In this lab, we only encrypt the **USERS** tablespace in the pdb.
 
-1. Connec to the orclpdb, check the encryt status of the tablespace
+1. Connec to the orclpdb, check the encryt status of the tablespace.
 
 ```
 SQL> alter session set container=orclpdb;
@@ -334,7 +334,7 @@ USERS			       YES
 
 
 
-## Enable the network encryption
+## Enable the Network Encryption
 
 VPN connection or Oracle Net encryption is also required for encryption-in-flight for any other database payload (e.g. data file or redo headers) that are not encrypted by TDE. In this lab, you use public internet connect between on-premise and the cloud, so you need to enable the network encryption.
 
