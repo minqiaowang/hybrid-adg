@@ -8,8 +8,8 @@ An effective disaster recovery plan can be costly due to the need to establish, 
 Click on one of our workshops below to access the content.
 
 
-- [I have a Freetier or Oracle Cloud account](https://minqiaowang.github.io/spatial/freetier/index.html)
-- [I have an account on LiveLabs](https://minqiaowang.github.io/spatial/ssworkshop/index.html)
+- [I have a Freetier or Oracle Cloud account](https://minqiaowang.github.io/hybrid-adg/freetier/index.html)
+- [I have an account on LiveLabs](https://minqiaowang.github.io/hybrid-adg/ssworkshop/index.html)
 
 
 ## Get an Oracle Cloud Trial Account for Free!
