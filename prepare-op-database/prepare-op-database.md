@@ -15,27 +15,27 @@ This lab assumes you have completed the following labs:
 
 1. From the OCI console, from the main menu, choose **Netwoking** and click **Virtual Cloud Networks**.
 
-   <img src="images/image-20200505103412168.png" alt="image-20200505103412168" style="zoom:50%;" />
+   ![](./images/image-20200505103412168.png " ")
 
 2. In the Vitual Cloud Networks page, make sure you are in the correct Region and Compartment, there is a VCN named **example-vcn** which you create in Lab3. Click the vcn link.
 
-   <img src="images/image-20200505103954441.png" alt="image-20200505103954441" style="zoom:42%;" />
+   ![](./images/image-20200505103954441.png " ")
 
 3. From the VCN Details page, click the subnet link.
 
-   <img src="images/image-20200505104215115.png" alt="image-20200505104215115" style="zoom:42%;" />
+   ![](./images/image-20200505104215115.png " ")
 
 4. Then click the Default Security List link.
 
-   <img src="images/image-20200505104413862.png" alt="image-20200505104413862" style="zoom:42%;" />
+   ![](./images/image-20200505104413862.png " ")
 
 5. Click **Add Ingress Rules**.
 
-   <img src="images/image-20200505104702210.png" alt="image-20200505104702210" style="zoom:42%;" />
+   ![](./images/image-20200505104702210.png " ")
 
 6. Set the Soure CIDR to ```0.0.0.0/0``` and the Destination Port Range to 1521. Then click **Add Ingress Rules**.
 
-   <img src="images/image-20200505105002310.png" alt="image-20200505105002310" style="zoom:50%;" />
+   ![](./images/image-20200505105002310.png " ")
 
    You are now open the 1521 port for the public subnet.
 

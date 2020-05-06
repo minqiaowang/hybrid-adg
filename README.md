@@ -26,7 +26,7 @@ Click here to request your trial account: [https://www.oracle.com/cloud/free](ht
 - [Oracle Database 19c](https://www.oracle.com/database/)
 
 ## Documentation
-- [Oracle Data Guard Document](https://www.oracle.com/database/technologies/high-availability/dataguard.html)
+- [Oracle Data Guard Document](https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.html)
 - [Oracle Database 19c Document](https://docs.oracle.com/en/database/oracle/oracle-database/19/books.html)
 
 ### Issues?
