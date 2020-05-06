@@ -82,7 +82,7 @@ Version 19.5.0.0.0
 1. Connect with DGMGRL, validate the primary and standby database
 
 ```
-[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U#@orcl
+[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@orcl
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Wed Feb 5 05:41:24 2020
 Version 19.5.0.0.0
 
