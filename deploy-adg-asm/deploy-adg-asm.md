@@ -43,7 +43,7 @@ To manually delete the database on the cloud host, run the steps below.
 ORCL_nrt1d4
 ```
 
-4. Copy the following scripts, replace the `ORCL_nrt1d4` with standby DB_UNIQUE_NAME you get in the previous step.
+4. Copy the following scripts, replace the `ORCL_nrt1d4` with standby `DB_UNIQUE_NAME` you get in the previous step.
 
    ```
    <copy>
@@ -112,7 +112,7 @@ Version 19.5.0.0.0
 
 7. Shutdown the database 
 
-    - First collect the configuration of the database for future reference, replace the `ORCL_nrt1d4` with the standby DB_UNIQUE_NAME.
+    - First collect the configuration of the database for future reference, replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME`.
 
    ```
    <copy>srvctl config database -d ORCL_nrt1d4 > /tmp/ORCL_nrt1d4.config</copy>
