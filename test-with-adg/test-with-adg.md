@@ -10,7 +10,7 @@ This lab assumes you have already completed the following labs:
 
 ## Test transaction replication
 
-1. From on-premise side, create a test user in orclpdb.
+1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need check if the pdb is open.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -54,7 +54,7 @@ User altered.
 SQL>exit;
 ```
 
-2. Connect with testuser.
+2. Connect with testuser, create test table and insert a test record.
 
 ```
 [oracle@dbstby ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
@@ -124,7 +124,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-4. From cloud side, connect as testuser to orclpdb.
+4. From cloud side, connect as testuser to orclpdb. Check if the test table and record has replicated to the standby.
 
 ```
 [oracle@dbstby ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
@@ -157,7 +157,7 @@ Starting 19c, We can run DML operations on Active Data Guard standby databases. 
 
 Automatic redirection of DML operations to the primary can be configured at the system level or the session level. The session level setting overrides the system level
 
-1. From cloud side, connect to orclpdb as testuser.
+1. From cloud side, connect to orclpdb as testuser. Test the DML before and after the DML Redirection enabled.
 
 ```
 SQL> insert into test values(2,'line2');
@@ -192,7 +192,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-2. From on-premise side, connect to orclpdb as testuser
+2. From on-premise side, connect to orclpdb as testuser. Check the records in the test table.
 
 ```
 SQL> select * from test;
@@ -296,10 +296,10 @@ SUCCESS   (status updated 104 seconds ago)
 DGMGRL> 
 ```
 
-3. Check from on-premise side.
+3. Check from on-premise side. You can see the previous primary side becomes the new standby side.
 
 ```
-[oracle@adgstudent1 ~]$ sqlplus / as sysdba
+[oracle@workshop ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:16:54 2020
 Version 19.5.0.0.0
@@ -326,7 +326,7 @@ READ ONLY WITH APPLY PHYSICAL STANDBY
 SQL> 
 ```
 
-4. Check from cloud side.
+4. Check from cloud side. You can see it's becomes the new primary side.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba

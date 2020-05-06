@@ -1,6 +1,6 @@
 # Provision the Database System on OCI
 
-In this lab, you will provision a Database system on OCI to act as the standby database in the cloud. You can provision the Cloud database in the different region with the on-premise database.
+In this lab, you will provision a Database system on OCI to act as the standby database in the cloud. You will create a different VCN in different region from the on-premise database, and provision a DBCS in that VCN. 
 
 ## Lab Prerequisites
 

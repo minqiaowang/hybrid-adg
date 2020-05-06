@@ -43,7 +43,7 @@ To manually delete the database on the cloud host, run the steps below.
 ORCL_nrt1d4
 ```
 
-4. Copy the following scripts, replace the `<standby DB_UNIQUE_NAME>` with the name in the previous step.
+4. Copy the following scripts, replace the `ORCL_nrt1d4` with standby DB_UNIQUE_NAME you get in the previous step.
 
    ```
    <copy>
@@ -51,7 +51,7 @@ ORCL_nrt1d4
    spool /tmp/files.lst
    select 'asmcmd rm '||name from v$datafile union all select 'asmcmd rm '||name from v$tempfile union all select 'asmcmd rm '||member from v$logfile;
    spool off
-   create pfile='/tmp/<standby DB_UNIQUE_NAME>.pfile' from spfile;
+   create pfile='/tmp/ORCL_nrt1d4.pfile' from spfile;
    exit;
    </copy>
    ```
@@ -94,7 +94,7 @@ asmcmd rm +RECO/ORCL_NRT1D4/ONLINELOG/group_3.259.1031050569
 asmcmd rm +RECO/ORCL_NRT1D4/ONLINELOG/group_2.258.1031050569
 asmcmd rm +RECO/ORCL_NRT1D4/ONLINELOG/group_1.257.1031050569
 SQL> spool off
-SQL> create pfile='/tmp/<standby DB_UNIQUE_NAME>.pfile' from spfile;
+SQL> create pfile='/tmp/ORCL_nrt1d4.pfile' from spfile;
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.5.0.0.0
@@ -112,25 +112,25 @@ Version 19.5.0.0.0
 
 7. Shutdown the database 
 
-    - First collect the configuration of the database for future reference, replace the `<standby DB_UNIQUE_NAME>` with the name in the previous step.
+    - First collect the configuration of the database for future reference, replace the `ORCL_nrt1d4` with the standby DB_UNIQUE_NAME.
 
    ```
-   <copy>srvctl config database -d <standby db_unique_name> > /tmp/<standby db_unique_name>.config</copy>
+   <copy>srvctl config database -d ORCL_nrt1d4 > /tmp/ORCL_nrt1d4.config</copy>
    ```
 
    - Then stop the database: 
 
    ```
-   <copy>srvctl stop database -d <standby db_unique_name> -o immediate</copy>
+   <copy>srvctl stop database -d ORCL_nrt1d4 -o immediate</copy>
    ```
 
 8. Remove database files 
 
 Remove the existing data files, log files and tempfile(s). The password file will be replaced and the spfile will be reused. 
 
-As **grid** user (sudo from opc user to **grid** user) 
+As **grid** user (sudo from opc user) 
 
-Edit `/tmp/files.lst` created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'asmcmd'. 
+Edit `/tmp/files.lst` created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'asmcmd'. Then run it.
 
 ```
 [opc@dbstby ~]$ sudo su - grid
@@ -165,7 +165,7 @@ orapwORCL                                                      100% 2048    63.5
 
 ```
 [grid@dbstby ~]$ asmcmd
-ASMCMD> pwcopy --dbuniquename <standby DB_UNIQUE_NAME> -f /tmp/orapwORCL +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
+ASMCMD> pwcopy --dbuniquename ORCL_nrt1d4 -f /tmp/orapwORCL +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
 copying /tmp/orapwORCL -> +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
 ASMCMD-9453: failed to register password file as a CRS resource
 ASMCMD>
@@ -174,14 +174,14 @@ ASMCMD>
 NOTE: if you receive ASMCMD-9453: failed to register password file as a CRS resource then as the **oracle** user execute the following, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@dbstby ~]$ srvctl modify database -db <standby DB_UNIQUE_NAME> -pwfile '+DATA/ORCL_nrt1d4/orapwORCL_nrt1d4'
+[oracle@dbstby ~]$ srvctl modify database -db ORCL_nrt1d4 -pwfile '+DATA/ORCL_nrt1d4/orapwORCL_nrt1d4'
 [oracle@dbstby ~]$ 
 ```
 
-Verify the password file is registered correctly (as **oracle** user): 
+Verify the password file is registered correctly (as **oracle** user),replace `ORCL_nrt1d4` with your standby db unique name.: 
 
 ```
-[oracle@dbstby ~]$ srvctl config database -d <standby DB_UNIQUE_NAME>
+[oracle@dbstby ~]$ srvctl config database -d ORCL_nrt1d4
 Database unique name: ORCL_nrt1d4
 Database name: ORCL
 Oracle home: /u01/app/oracle/product/19.0.0.0/dbhome_1
@@ -234,12 +234,12 @@ ENCRYPTION_WALLET_LOCATION =
 ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
 ```
 
-1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change `<standby DB_UNIQUE_NAME>` to the unique name of your standby db.
+1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change `ORCL_nrt1d4` to the unique name of your standby db.
 
    ```
-   <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>
-   scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>
-   chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>/*wallet*
+   <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+   scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+   chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
    </copy>
    ```
 
@@ -248,11 +248,11 @@ ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/ora
 2. From cloud side as **oracle** user, run the command to copy the wallet files from on-premise host, use the on-premise host public ip or hostname, change mode to 600.
 
 ```
-[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>
+[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
 ewallet.p12                                                                                       100% 5467   153.2KB/s   00:00    
-[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>
+[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
 cwallet.sso                                                                                       100% 5512   147.4KB/s   00:00    
-[oracle@dbstby ~]$ chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/<standby DB_UNIQUE_NAME>/*wallet*
+[oracle@dbstby ~]$ chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
 [oracle@dbstby ~]$
 ```
 
@@ -299,7 +299,7 @@ LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
 
 Copyright (c) 1991, 2019, Oracle.  All rights reserved.
 
-Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=adgstudent1)(PORT=1521)))
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=workshop)(PORT=1521)))
 The command completed successfully
 [oracle@adgstudent1 ~]$ 
 ```
@@ -344,7 +344,7 @@ The command completed successfully
 [grid@dbstby ~]$ 
 ```
 
-- Start the Standby database, replace `ORCL_nrt1d4` with your standby db unique name.
+- Start the Standby database in mount state, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 [grid@dbstby ~]$ srvctl start database -db ORCL_nrt1d4 -startoption mount
@@ -361,7 +361,7 @@ The command completed successfully
 <copy>vi $ORACLE_HOME/network/admin/tnsnames.ora</copy>
 ```
 
-Add following lines into tnsnames.ora, use the public ip or hostname of the cloud hosts, replace `ORCL_nrt1d4` with your standby db unique name.
+Add following lines into tnsnames.ora, replace xxx.xxx.xxx.xxx with the public ip or hostname of the cloud hosts, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 <copy>
@@ -388,7 +388,7 @@ ORCL_nrt1d4 =
 vi $ORACLE_HOME/network/admin/tnsnames.ora
 ```
 
-In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, use the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
+In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, replace xxx.xxx.xxx.xxx with the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
 
 **Note:** The different database domain name will get error when doing the DML Redirection
 
@@ -484,7 +484,7 @@ ASMCMD> mkdir DATA/ORCL_NRT1D4/orclpdb
 ASMCMD> exit
 ```
 
-2. Copy the following command, Replace `ORCL_nrt187` with your standby db unique name.
+2. Copy the following command, Replace `ORCL_nrt1d4` with your standby db unique name.
 
    ```
    <copy>
@@ -573,7 +573,7 @@ Statement processed
 RMAN> 
 ```
 
-6. Now, restore database from on-premise database.
+6. Now, restore database from the on-premise database.
 
 ```
 RMAN> restore database from service 'ORCL' section size 5G;
@@ -626,7 +626,7 @@ Finished restore at 01-FEB-20
 RMAN> 
 ```
 
-7. Shutdown and mount the database again.
+7. Shutdown and mount the database again. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 RMAN> shutdown immediate
@@ -678,7 +678,7 @@ SQL>
 
    
 
-3. Run the command, this will clear the redo log, ignore the unknown command.
+3. Run the command, this will clear or create new online and standby redo log, ignore the unknown command.
 
 ```
 SQL> set pagesize 0 feedback off linesize 120 trimspool on

@@ -13,7 +13,7 @@ This lab assumes you have already completed the following labs:
 
 In the previous lab, you have done the data guard switch over. Now, the current primary database is the DBCS and the current standby database in the on-premise database.
 
-1. Check the flashback status of the current primary database
+1. From the Cloud side. Check the flashback status of the current primary database
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -37,7 +37,7 @@ READ WRITE	     PRIMARY	      NO
 SQL> 
 ```
 
-2. Setup database flashback on.
+2. If the Flashback is not enable. You need setup database flashback on, otherwise you couldn't reinstate the primary after the failover.
 
 ```
 SQL> shutdown immediate;
@@ -172,11 +172,11 @@ SUCCESS   (status updated 13 seconds ago)
 DGMGRL> 
 ```
 
+Now, the primary is the on-premise database, and the standby database is disabled, which need to be reinstated.
 
+## Reinstate the previous primary database
 
-## Reinstate the old primary database
-
-1. In the old primary host, connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
+1. In cloud side(the previous primary), connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba  
@@ -210,7 +210,7 @@ Version 19.5.0.0.0
 [oracle@dbstby ~]$  
 ```
 
-2. Reinstate, replace `ORCL_nrt1d4` with your old primary db unique name.
+2. Reinstate the database, replace `ORCL_nrt1d4` with your previous primary db unique name.
 
 ```
 DGMGRL> reinstate database orcl_nrt1d4
