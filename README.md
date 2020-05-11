@@ -9,7 +9,7 @@ Click on one of our workshops below to access the content.
 
 
 - [I have a Freetier or Oracle Cloud account](https://minqiaowang.github.io/hybrid-adg/freetier/index.html)
-- [I have an account on LiveLabs](https://minqiaowang.github.io/hybrid-adg/ssworkshop/index.html)
+- [I have an account on LiveLabs](https://minqiaowang.github.io/hybrid-adg/livelabs/index.html)
 
 
 ## Get an Oracle Cloud Trial Account for Free!
