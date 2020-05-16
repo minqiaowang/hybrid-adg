@@ -1,6 +1,6 @@
 # Provision the Database System on OCI
 
-In this lab, you will provision a Database system on OCI to act as the standby database in the cloud. You will create a different VCN in different region from the on-premise database, and provision a DBCS in that VCN. 
+In this lab you will provision a Database system on OCI to act as the standby database in the cloud. You will create a different VCN in different region from the on-premise database, and provision a DBCS in that VCN. 
 
 ## Lab Prerequisites
 
@@ -69,7 +69,7 @@ This lab assumes you have already completed the following labs:
 
     - **Total node count:** 1
     - **Oracle Database software edition:** choose **Enterprise Extreme Performance**.
-    - **Storage Management Software:**  choose the storage management software according to your instructor. You will do the differenct **Lab6** base on your choice. Select **Oracle Grid Infrastructure** to use Oracle Automatic Storage Management (recommended for production workloads). Select **Logical Volume Manager** to quickly provision your DB system using Logical Volume Manager storage management software. 
+    - **Storage Management Software:**  choose the storage management software according to your requirements. You will do a different **Lab 7** based on your choice. Select **Oracle Grid Infrastructure** to use Oracle Automatic Storage Management (recommended for production workloads). Select **Logical Volume Manager** to quickly provision your DB system using Logical Volume Manager storage management software.  ASM takes about 60 minutes, and LVM takes about 30 minutes.
 
     ![](./images/image-20200505123551616.png " ")
 
@@ -87,13 +87,13 @@ This lab assumes you have already completed the following labs:
 
 5. In the **Database Information** page, Specify the following:
 
-    - **Databse name:** **ORCL**, same as the on premise database
-    - Check the Display allavailable versions box, select the Database version: 19.5.0.0. same version as the on premise database
+    - **Database name:** **ORCL**, same as the on premise database
+    - Check the Display all available versions box, select the Database version: 19.5.0.0. same version as the on premise database
     - PDB name: orclpdb
 
     ![](./images/image-20200130181300472.png " ")
 
-    - Enter the password like `Ora_DB4U`
+    - Enter a strong password
     - Workload type: OLTP
 
     ![](./images/image-20200130181651405.png " ")
@@ -104,9 +104,9 @@ This lab assumes you have already completed the following labs:
 
    ![](./images/image-20200130200100992.png " ")
 
-7. Remmeber and write down the Database Unique Name like `ORCL_nrt1d4`.
+7. Write down your Database Unique Name ie:`ORCL_nrt1d4`.
 8. Click the **Nodes**,  write down the public ip address of the database host node and the Host Domain Name.
 
    ![](./images/image-20200130200337237.png " ")
 
-Now you are complete to Provisioning the Database System steps.
+You have completed the Database Cloud provisioning steps.  It will be used as your standby database.
