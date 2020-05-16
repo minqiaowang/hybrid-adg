@@ -43,7 +43,7 @@ ssh -i labkey opc@xxx.xxx.xxx.xxx
 <copy>sudo yum -y install telnet</copy>
 ```
 
-   - From the on-premise side, telnet the public ip of the cloud host, enter `^]` and return to exit. 
+   - From the on-premise side, telnet the public ip of the cloud host, enter `^]` and return to exist. 
 
     ```
      [opc@adgstudent1 ~]$ telnet xxx.xxx.xxx.xxx 1521
@@ -83,7 +83,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
 <copy>sudo su - oracle</copy>
 ```
 
-2. Configure prompt-less ssh from on-premise to cloud.
+2. Configure prompt-less ssh from on-primse to cloud.
 
      - From on-premise side, generate the ssh key, and cat the public key, copy all the content in the id_rsa.pub
 
@@ -120,7 +120,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>vi .ssh/authorized_keys</copy>
      ```
 
-     - From on-premise side, test the connection from on-premise to cloud, using the public ip of the cloud hosts.
+     - From on-premise side, test the connect from on-premise to cloud, using the public ip of the cloud hosts.
 
      ```
      [oracle@workshop ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
@@ -176,7 +176,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>chmod 600 .ssh/authorized_keys</copy>
      ```
 
-     - From cloud side, test the connection from cloud to on-premise, using the public ip of the on-premise hosts.
+     - From cloud side, test the connect from cloud to on-premise, using the public ip of the on-premise hosts.
 
      ```
      [oracle@dbstby ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
