@@ -13,7 +13,7 @@ This lab assumes you have already completed the following labs:
 1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need check if the pdb is open.
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@workshop ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:52:50 2020
 Version 19.5.0.0.0
@@ -57,7 +57,7 @@ SQL>exit;
 2. Connect with testuser, create test table and insert a test record.
 
 ```
-[oracle@dbstby ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
+[oracle@workshop ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:59:56 2020
 Version 19.5.0.0.0
@@ -107,10 +107,7 @@ MOUNTED 	     PHYSICAL STANDBY
 SQL> alter database open;
 
 Database altered.
-
-SQL> alter pluggable database all open;
-
-Pluggable database altered.
+st
 
 SQL> select open_mode,database_role from v$database;
 
@@ -153,7 +150,7 @@ SQL>
 
 ## Test DML Redirection
 
-Starting 19c, We can run DML operations on Active Data Guard standby databases. This enables you to run read-mostly applications, which occasionally execute DMLs, on the standby database.
+Starting  with Oracle DB 19c, we can run DML operations on Active Data Guard standby databases. This enables you to occasionally execute DMLs on read-mostly applications on the standby database.
 
 Automatic redirection of DML operations to the primary can be configured at the system level or the session level. The session level setting overrides the system level
 
@@ -212,14 +209,14 @@ Version 19.5.0.0.0
 
 ## Switchover to the Cloud 
 
-At any time, you can manually execute a Data Guard switchover (planned event) or failover (unplanned event). Customers may also choose to automate Data Guard failover by configuring Fast-Start failover. Switchover and failover reverse the roles of the databases in a Data Guard configuration – the standby in the cloud becomes primary and the original on-premises primary becomes a standby database. Refer to Oracle MAA Best Practices for additional information on Data Guard role transitions. 
+At any time, you can manually execute a Data Guard switchover (planned event) or failover (unplanned event). Customers may also choose to automate Data Guard failover by configuring Fast-Start failover. Switchover and failover reverse the roles of the databases in a Data Guard configuration – the standby in the cloud becomes primary and the original on-premise primary becomes a standby database. Refer to Oracle MAA Best Practices for additional information on Data Guard role transitions. 
 
 Switchovers are always a planned event that guarantees no data is lost. To execute a switchover, perform the following in Data Guard Broker 
 
 1. Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U#@orcl
+[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@orcl
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 07:21:55 2020
 Version 19.5.0.0.0
 

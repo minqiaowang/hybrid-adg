@@ -9,7 +9,7 @@ This lab assumes you have already completed the following labs:
 - Prepare on-premise Database
 - Provision DBCS on OCI
 
-In this Lab, you can use 2 termial windows, one connect to the on-premise host, another connect to the cloud host. 
+In this Lab, you can use 2 terminal windows, one connected to the on-premise host, the other connected to the cloud host. 
 
 ## Name Resolution Configure
 
@@ -19,7 +19,7 @@ In this Lab, you can use 2 termial windows, one connect to the on-premise host, 
 ssh -i labkey opc@xxx.xxx.xxx.xxx
 ```
 
-2. Edit `/etc/hosts` in both sides.
+2. Edit `/etc/hosts` on both sides.
 
 ```
 <copy>sudo vi /etc/hosts</copy>
@@ -37,7 +37,7 @@ ssh -i labkey opc@xxx.xxx.xxx.xxx
    xxx.xxx.xxx.xxx workshop.subnet1.examplevcn.oraclevcn.com workshop
    ```
 
-3. Valide the connectivity, install telnet in both side.
+3. Validate the connectivity, install telnet on both sides.
 
 ```
 <copy>sudo yum -y install telnet</copy>

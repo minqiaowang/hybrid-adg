@@ -452,7 +452,7 @@ SQL> alter database archivelog;
 
 Database altered.
 
-SQL> mkdir -p /u01/app/oracle/fra/ORCL
+SQL> !mkdir -p /u01/app/oracle/fra/ORCL
 SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST_SIZE = 10G SCOPE=BOTH SID='*';
 SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST = '/u01/app/oracle/fra/ORCL' SCOPE=BOTH SID='*';
 
