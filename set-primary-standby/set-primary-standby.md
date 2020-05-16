@@ -9,7 +9,7 @@ This lab assumes you have already completed the following labs:
 - Prepare on-premise Database
 - Provision DBCS on OCI
 
-In this Lab, you can use 2 termial windows, one connect to the on-premise host, another connect to the cloud host. 
+In this Lab, you can use 2 terminal windows, one connected to the on-premise host, the other connected to the cloud host. 
 
 ## Name Resolution Configure
 
@@ -19,7 +19,7 @@ In this Lab, you can use 2 termial windows, one connect to the on-premise host, 
 ssh -i labkey opc@xxx.xxx.xxx.xxx
 ```
 
-2. Edit `/etc/hosts` in both sides.
+2. Edit `/etc/hosts` on both sides.
 
 ```
 <copy>sudo vi /etc/hosts</copy>
@@ -37,13 +37,13 @@ ssh -i labkey opc@xxx.xxx.xxx.xxx
    xxx.xxx.xxx.xxx workshop.subnet1.examplevcn.oraclevcn.com workshop
    ```
 
-3. Valide the connectivity, install telnet in both side.
+3. Validate the connectivity, install telnet on both sides.
 
 ```
 <copy>sudo yum -y install telnet</copy>
 ```
 
-   - From the on-premise side, telnet the public ip of the cloud host, enter `^]` and return to exist. 
+   - From the on-premise side, telnet the public ip of the cloud host, enter `^]` and return to exit. 
 
     ```
      [opc@adgstudent1 ~]$ telnet xxx.xxx.xxx.xxx 1521
@@ -83,7 +83,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
 <copy>sudo su - oracle</copy>
 ```
 
-2. Configure prompt-less ssh from on-primse to cloud.
+2. Configure prompt-less ssh from on-premise to cloud.
 
      - From on-premise side, generate the ssh key, and cat the public key, copy all the content in the id_rsa.pub
 
@@ -120,7 +120,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>vi .ssh/authorized_keys</copy>
      ```
 
-     - From on-premise side, test the connect from on-premise to cloud, using the public ip of the cloud hosts.
+     - From on-premise side, test the connection from on-premise to cloud, using the public ip of the cloud hosts.
 
      ```
      [oracle@workshop ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
@@ -176,7 +176,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>chmod 600 .ssh/authorized_keys</copy>
      ```
 
-     - From cloud side, test the connect from cloud to on-premise, using the public ip of the on-premise hosts.
+     - From cloud side, test the connection from cloud to on-premise, using the public ip of the on-premise hosts.
 
      ```
      [oracle@dbstby ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
