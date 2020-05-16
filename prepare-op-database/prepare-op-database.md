@@ -1,6 +1,6 @@
 # Prepare On Premise Database
 
-In this lab, You will use a compute instance in the OCI to simulate the on-premise database. In the Lab3, the Oracle 19c database has been installed and patch to 19.5.0. The on-premise database can deploy into different region with the cloud database.
+In this lab, You will use a compute instance in the OCI to simulate the on-premise primary database. In Lab3, the Oracle 19c database has been installed and patched to 19.5.0. The on-premise primary database can deploy into a different region from the cloud database which will act as your stand-by database.
 
 ## Lab Prerequisites
 
@@ -17,7 +17,7 @@ This lab assumes you have completed the following labs:
 
    ![](./images/image-20200505103412168.png " ")
 
-2. In the Vitual Cloud Networks page, make sure you are in the correct Region and Compartment, there is a VCN named **example-vcn** which you create in Lab3. Click the vcn link.
+2. In the Virtual Cloud Networks page, make sure you are in the correct Region and Compartment, there is a VCN named **example-vcn** which you created in Lab3. Click the VCN link.
 
    ![](./images/image-20200505103954441.png " ")
 
@@ -33,13 +33,13 @@ This lab assumes you have completed the following labs:
 
    ![](./images/image-20200505104702210.png " ")
 
-6. Set the Soure CIDR to ```0.0.0.0/0``` and the Destination Port Range to 1521. Then click **Add Ingress Rules**.
+6. Set the Source CIDR to ```0.0.0.0/0``` and the Destination Port Range to 1521. Then click **Add Ingress Rules**.
 
    ![](./images/image-20200505105002310.png " ")
 
-   You are now open the 1521 port for the public subnet.
+   You are now open to the 1521 port for the public subnet.
 
-7. Connect to the VM which you created in Lab3 with opc user. Use putty tools(Windows) or command line(Mac, linux).
+7. Connect to the VM which you created in Lab3 with opc user. Use putty tool (Windows) or command line (Mac, Linux).
 
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
@@ -80,7 +80,7 @@ AllowUsers opc</copy>
 
 
 ## Step 3: Enable TDE
- 
+
 Oracle MAA best practice recommends using Oracle Transparent Data Encryption (TDE) to encrypt both primary and standby databases to ensure all data is encrypted at-rest. Data can be converted during the migration process but it’s highly recommended to convert to TDE prior to migration to provide the most secure Data Guard environment. 
 
 1. Switch to the **oracle** user.
@@ -284,7 +284,7 @@ SQL>
 
 According to the best practice, you should encrypt all the data files. In this lab, we only encrypt the **USERS** tablespace in the pdb.
 
-1. Connec to the orclpdb, check the encryt status of the tablespace.
+1. Connect to the orclpdb, check the encrypt status of the tablespace.
 
 ```
 SQL> alter session set container=orclpdb;
@@ -332,7 +332,7 @@ USERS			       YES
 
 ## Step 5: Enable the Network Encryption
 
-VPN connection or Oracle Net encryption is also required for encryption-in-flight for any other database payload (e.g. data file or redo headers) that are not encrypted by TDE. In this lab, you use public internet connect between on-premise and the cloud, so you need to enable the network encryption.
+VPN connection or Oracle Net encryption is also required for encryption-in-flight for any other database payload (e.g. data file or redo headers) that are not encrypted by TDE. In this lab, you use public internet to connect between on-premise and the cloud, so you need to enable the network encryption.
 
 1. Work as oracle user, connect to the database as sysdba.
 
@@ -342,7 +342,7 @@ VPN connection or Oracle Net encryption is also required for encryption-in-fligh
 
    
 
-2. Check the network service banner before encrytion.
+2. Check the network service banner before encryption.
 
 ```
 SQL> set linesize 120
@@ -420,7 +420,7 @@ SQL>
 
 ## Step 6: Enable achivelog and flashback
 
-1. Check the achivelog mode, you can found it's disable now.
+1. Check the achivelog mode, you can find it's disable now.
 
 ```
 SQL> archive log list
@@ -451,6 +451,10 @@ Database mounted.
 SQL> alter database archivelog;
 
 Database altered.
+
+SQL> mkdir -p /u01/app/oracle/fra/ORCL
+SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST_SIZE = 10G SCOPE=BOTH SID='*';
+SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST = '/u01/app/oracle/fra/ORCL' SCOPE=BOTH SID='*';
 
 SQL> alter database flashback on;
 
