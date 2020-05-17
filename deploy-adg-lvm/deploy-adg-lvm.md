@@ -647,26 +647,6 @@ SQL> spool off
 SQL> @/tmp/clearlogs.sql
 SP2-0734: unknown command beginning "SQL> selec..." - rest of line ignored.
 
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
 SP2-0734: unknown command beginning "SQL> spool..." - rest of line ignored.
 SQL> 
 ```
@@ -785,5 +765,5 @@ SUCCESS   (status updated 42 seconds ago)
 
 if there is a warning message, Warning: ORA-16809: multiple warnings detected for the member. You can wait serveral minutes and show configuration again.
 
-Now, the Hybrid Active Data Guard is ready.
+Now, the Hybrid Data Guard is ready. The standby database is in mount status.
 

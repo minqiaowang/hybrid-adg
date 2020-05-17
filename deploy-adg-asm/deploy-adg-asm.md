@@ -112,7 +112,7 @@ Version 19.5.0.0.0
 
 7. Shutdown the database 
 
-    - First collect the configuration of the database for future reference, replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME`.
+   - First collect the configuration of the database for future reference, replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME`.
 
    ```
    <copy>srvctl config database -d ORCL_nrt1d4 > /tmp/ORCL_nrt1d4.config</copy>
@@ -161,20 +161,20 @@ orapwORCL                                                      100% 2048    63.5
 [oracle@dbstby ~]$ exit
 ```
 
-3. Switch to **grid** user, use asmcmd, replace `ORCL_nrt1d4` with your standby db unique name.
+3. Switch to **grid** user, use asmcmd, replace `ORCL_nrt1d4` with your standby db unique name, using capital letters in the directory names.
 
 ```
 [grid@dbstby ~]$ asmcmd
-ASMCMD> pwcopy --dbuniquename ORCL_nrt1d4 -f /tmp/orapwORCL +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
-copying /tmp/orapwORCL -> +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
+ASMCMD> pwcopy --dbuniquename ORCL_nrt1d4 -f /tmp/orapwORCL +DATA/ORCL_NRT1D4/orapwORCL_nrt1d4
+copying /tmp/orapwORCL -> +DATA/ORCL_NRT1D4/orapwORCL_nrt1d4
 ASMCMD-9453: failed to register password file as a CRS resource
 ASMCMD>
 ```
 
-NOTE: if you receive ASMCMD-9453: failed to register password file as a CRS resource then as the **oracle** user execute the following, replace `ORCL_nrt1d4` with your standby db unique name.
+NOTE: if you receive ASMCMD-9453: failed to register password file as a CRS resource then as the **oracle** user execute the following, replace `ORCL_nrt1d4` with your standby db unique name, using capital letters in the directory names.
 
 ```
-[oracle@dbstby ~]$ srvctl modify database -db ORCL_nrt1d4 -pwfile '+DATA/ORCL_nrt1d4/orapwORCL_nrt1d4'
+[oracle@dbstby ~]$ srvctl modify database -db ORCL_nrt1d4 -pwfile '+DATA/ORCL_NRT1D4/orapwORCL_nrt1d4'
 [oracle@dbstby ~]$ 
 ```
 
@@ -187,7 +187,7 @@ Database name: ORCL
 Oracle home: /u01/app/oracle/product/19.0.0.0/dbhome_1
 Oracle user: oracle
 Spfile: +DATA/ORCL_NRT1D4/PARAMETERFILE/spfile.269.1031050991
-Password file: +DATA/ORCL_nrt1d4/orapwORCL_nrt1d4
+Password file: +DATA/ORCL_NRT1D4/orapwORCL_nrt1d4
 Domain: sub01230246570.myvcn.oraclevcn.com
 Start options: open
 Stop options: immediate
@@ -379,13 +379,13 @@ ORCL_nrt1d4 =
       (UR=A)
     )
   )
-<copy>
+</copy>
 ```
 
 2. From cloud side, switch as **oracle** user, edit the tnsnames.ora
 
 ```
-vi $ORACLE_HOME/network/admin/tnsnames.ora
+<copy>vi $ORACLE_HOME/network/admin/tnsnames.ora</copy>
 ```
 
 In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, replace xxx.xxx.xxx.xxx with the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
@@ -475,12 +475,13 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 The standby database can be created from the active primary database.
 
-1. Switch to **grid** user, create pdb directory in ASM, Replace `ORCL_NRT1D4` with your standby db unique name using capital letters. If the directory exist, ignore the error.
+1. From cloud side, switch to **grid** user, create pdb directory in ASM, Replace `ORCL_NRT1D4` with your standby db unique name using capital letters. If the directory exist, ignore the error.
 
 ```
 grid@dbstby ~]$ asmcmd
 ASMCMD> mkdir DATA/ORCL_NRT1D4/pdbseed
 ASMCMD> mkdir DATA/ORCL_NRT1D4/orclpdb
+ASMCMD> mkdir RECO/ORCL_NRT1D4/ONLINELOG
 ASMCMD> exit
 ```
 
@@ -489,9 +490,9 @@ ASMCMD> exit
    ```
    <copy>
    ALTER SYSTEM SET db_file_name_convert='/u01/app/oracle/oradata/ORCL','+DATA/ORCL_NRT1D4' scope=spfile;
-   alter system set db_create_online_log_dest_1='+RECO/ORCL_NRT1D4/ONLINELOG' scope=spfile;
+   ALTER SYSTEM SET set db_create_online_log_dest_1='+RECO' scope=spfile;
    ALTER SYSTEM SET log_file_name_convert='/u01/app/oracle/oradata/ORCL','+RECO/ORCL_NRT1D4/ONLINELOG' scope=spfile;
-   alter system set db_domain='' scope=spfile;
+   ALTER SYSTEM SET db_domain='' scope=spfile;
    exit;
    </copy>
    ```
@@ -506,13 +507,13 @@ ASMCMD> exit
 SQL> ALTER SYSTEM SET db_file_name_convert='/u01/app/oracle/oradata/ORCL','+DATA/ORCL_NRT1D4' scope=spfile;
 
 System altered.
-SQL> alter system set db_create_online_log_dest_1='+RECO';
-
-System altered.
-SQL> alter system set db_domain='' scope=spfile;
+SQL> ALTER SYSTEM SET db_create_online_log_dest_1='+RECO' scope=spfile;
 
 System altered.
 SQL> ALTER SYSTEM SET log_file_name_convert='/u01/app/oracle/oradata/ORCL','+RECO/ORCL_NRT1D4/ONLINELOG' scope=spfile;
+
+System altered.
+SQL> ALTER SYSTEM SET db_domain='' scope=spfile;
 
 System altered.
 SQL> exit
@@ -646,7 +647,7 @@ Recovery Manager complete.
 
 ## Clear all online and standby redo logs 
 
-1. Connect database as sysdba.
+1. From cloud side, connect database as sysdba.
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -695,26 +696,6 @@ SQL> spool off
 SQL> @/tmp/clearlogs.sql
 SP2-0734: unknown command beginning "SQL> selec..." - rest of line ignored.
 
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
-
-Database altered.
-
 SP2-0734: unknown command beginning "SQL> spool..." - rest of line ignored.
 SQL> 
 ```
@@ -736,7 +717,7 @@ SQL>
 
    
 
-2. Run the command on primary and standby database to enable the data guard broker.
+2. Run the command on primary and standby database in sqlplus as sysdba to enable the data guard broker.
 
    - From on-premise side,
 
@@ -798,10 +779,10 @@ SQL>
    SQL> 
    ```
 
-2. Register the database via DGMGRL, Replace `ORCL_nrt1d4` with your standby db unique name.
+2. Register the database via DGMGRL. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@workshop ~]$ dgmgrl sys/Ora_DB4U#@ORCL
+[oracle@workshop ~]$ dgmgrl sys/Ora_DB4U@ORCL
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 03:51:49 2020
 Version 19.5.0.0.0
 
@@ -833,5 +814,5 @@ SUCCESS   (status updated 42 seconds ago)
 
 if there is a warning message, Warning: ORA-16809: multiple warnings detected for the member. You can wait serveral minutes and show configuration again.
 
-Now, the Hybrid Active Data Guard is ready.
+Now, the Hybrid Data Guard is ready. The standby database is in mount status.
 
