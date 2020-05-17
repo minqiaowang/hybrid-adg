@@ -1,26 +1,26 @@
 # Deploy ADG Process
 
-This procedure is basically same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup data guard from an SI on-premises to an SI in the cloud infrastructure. If you want to setup data guard from an SI on-premises to to a 2-Node RAC in cloud infrastructure or RAC on-premises to an SI in the cloud infrastructure. Please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
+This procedure is basically the same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup data guard from an SI on-premises to an SI in the cloud infrastructure. If you want to setup Data Guard from an SI on-premises to to a 2-Node RAC in cloud infrastructure or RAC on-premises to an SI in the cloud infrastructure please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
 
 ##Lab Prerequisites
 
 This lab assumes you have already completed the following labs:
 
-- Prepare On Premise Database(choose ASM)
+- Prepare On Premise Database(with ASM)
 - Provision DBCS on OCI
 - Setup Connectivity between on-premise and DBCS
 
-**Note: The following steps is for the cloud database using ASM for the storage management in Lab5. If you use LVM for the storage, please use another Lab for the LVM.**
+**Note: The following steps is for the cloud database using ASM for the storage management in Lab5. If you chose LVM for the storage, please use the other Lab for the LVM.**
 
 ##Manually Delete the Database Created by Tooling 
 
-Please perform the below operations to delete the starter database files in the cloud and we will restore the on-premises database using RMAN. 
+Please perform the below operations to delete the starter database files in the cloud and we will restore the on-premise database using RMAN. 
 
 To delete the starter database, use the manual method of removing the database files from ASM disk groups. Do not use DBCA as this will also remove the srvctl registration as well as the /etc/oratab entries which should be retained for the standby. 
 
 To manually delete the database on the cloud host, run the steps below.
 
-1. Connect to the DBCS VM which you created in Lab5 with opc user. Use putty tools(Windows) or command line(Mac, linux).
+1. Connect to the DBCS VM which you created in Lab5 with opc user. Use putty tool (Windows) or command line(Mac, linux).
 
    ```
    ssh -i labkey opc@xxx.xxx.xxx.xxx
@@ -43,7 +43,7 @@ To manually delete the database on the cloud host, run the steps below.
 ORCL_nrt1d4
 ```
 
-4. Copy the following scripts, replace the `ORCL_nrt1d4` with standby `DB_UNIQUE_NAME` you get in the previous step.
+4. Copy the following scripts, replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME` which you got in the previous step.
 
    ```
    <copy>
@@ -58,7 +58,7 @@ ORCL_nrt1d4
 
    
 
-5. Run the command in sqlplus as sysdba. This will create a script to remove all database files. 
+5. Run in sqlplus as sysdba. This will create a script to remove all database files. 
 
 ```
 [oracle@dbstby ~]$ sqlplus / as sysdba
@@ -126,7 +126,7 @@ Version 19.5.0.0.0
 
 8. Remove database files 
 
-Remove the existing data files, log files and tempfile(s). The password file will be replaced and the spfile will be reused. 
+Remove the existing data files, log files, and tempfile(s). The password file will be replaced and the spfile will be reused. 
 
 As **grid** user (sudo from opc user) 
 
@@ -144,7 +144,7 @@ All files for the starter database have now been removed.
 
 ## Copy the Password File to the Cloud host 
 
-1. Copy following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.
+1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.
 
    ```
    <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/product/19c/dbhome_1/dbs/orapwORCL /tmp</copy>
@@ -217,7 +217,7 @@ Database is administrator managed
 
 Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following line wallet file location is defined as `ENCRYPTION_WALLET_LOCATION` parameter in sqlnet.ora 
 
-- on-premise side.
+- From on-premise side.
 
 ```
 ENCRYPTION_WALLET_LOCATION =
@@ -228,13 +228,13 @@ ENCRYPTION_WALLET_LOCATION =
    )
 ```
 
-- cloud side.
+- From cloud side.
 
 ```
 ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
 ```
 
-1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  change `ORCL_nrt1d4` to the unique name of your standby db.
+1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip.  Change `ORCL_nrt1d4` to the unique name of your standby db.
 
    ```
    <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
@@ -293,7 +293,7 @@ SID_LIST_LISTENER=
 - Reload the listener.
 
 ```
-[oracle@adgstudent1 ~]$ lsnrctl reload
+[oracle@workshop ~]$ lsnrctl reload
 
 LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
 
@@ -390,7 +390,7 @@ vi $ORACLE_HOME/network/admin/tnsnames.ora
 
 In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, replace xxx.xxx.xxx.xxx with the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
 
-**Note:** The different database domain name will get error when doing the DML Redirection
+**Note:** The different database domain name will get an error when doing the DML Redirection
 
 ```
 # tnsnames.ora Network Configuration File: /u01/app/oracle/product/19.0.0.0/dbhome_1/network/admin/tnsnames.ora
@@ -424,7 +424,7 @@ ORCL =
   )
 ```
 
-3. Set TCP socket size, adjust all socket size maximums to 128MB or 134217728. This is only need set in on-premise side, the cloud side has already set by default.
+3. Set TCP socket size, adjust all socket size maximums to 128MB or 134217728. This is only needed to set in the on-premise side, the cloud side has already been set by default.
 
 - From on-premise side, switch to **opc** user.
 
@@ -489,7 +489,7 @@ ASMCMD> exit
    ```
    <copy>
    ALTER SYSTEM SET db_file_name_convert='/u01/app/oracle/oradata/ORCL','+DATA/ORCL_NRT1D4' scope=spfile;
-   alter system set db_create_online_log_dest_1='+RECO';
+   alter system set db_create_online_log_dest_1='+RECO/ORCL_NRT1D4/ONLINELOG' scope=spfile;
    ALTER SYSTEM SET log_file_name_convert='/u01/app/oracle/oradata/ORCL','+RECO/ORCL_NRT1D4/ONLINELOG' scope=spfile;
    alter system set db_domain='' scope=spfile;
    exit;
@@ -798,10 +798,10 @@ SQL>
    SQL> 
    ```
 
-2. Register the database via DGMGRL on primary site, Replace `ORCL_nrt1d4` with your standby db unique name.
+2. Register the database via DGMGRL, Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@adgstudent1 ~]$ dgmgrl sys/Ora_DB4U#@ORCL
+[oracle@workshop ~]$ dgmgrl sys/Ora_DB4U#@ORCL
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 03:51:49 2020
 Version 19.5.0.0.0
 

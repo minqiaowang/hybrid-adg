@@ -337,7 +337,7 @@ VPN connection or Oracle Net encryption is also required for encryption-in-fligh
 1. Work as oracle user, connect to the database as sysdba.
 
    ```
-   <copy>sqlplus / as sysdba</copy>
+   <copy>connect / as sysdba</copy>
    ```
 
    

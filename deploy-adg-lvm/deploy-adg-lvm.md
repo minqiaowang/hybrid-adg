@@ -427,10 +427,10 @@ The standby database can be created from the active primary database.
 1. From Cloud side, switch to **oracle** user, create pdb directory, Replace `ORCL_nrt1d4` with your standby db unique name. If the directory exist, ignore the error
 
 ```
-[oracle@dbstby ~]$ mkdir /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed
+[oracle@dbstby ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed
 mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed': File exists
-[oracle@dbstby ~]$ mkdir /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb
-[oracle@dbstby ~]$ 
+[oracle@dbstby ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb
+[oracle@dbstby ~]$ mkdir -p /u03/app/oracle/redo/ORCL_nrt1d4/onlinelog
 ```
 
 2. Copy the following command, Replace `ORCL_nrt1d4` with your standby db unique name.
@@ -438,8 +438,8 @@ mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed': Fi
    ```
    <copy>
    alter system set db_file_name_convert='/u01/app/oracle/oradata/ORCL','/u02/app/oracle/oradata/ORCL_nrt1d4' scope=spfile;
-   alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog';
-   ALTER SYSTEM SET log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
+   alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
+   alter system set log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
    alter system set db_domain='' scope=spfile;
    </copy>
    ```
@@ -454,13 +454,14 @@ mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed': Fi
 SQL> ALTER SYSTEM SET db_file_name_convert='/u01/app/oracle/oradata/ORCL','/u02/app/oracle/oradata/ORCL_nrt1d4' scope=spfile;
 
 System altered.
-SQL> alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog';
+SQL> alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
+
+System altered.
+
+SQL> alter system set log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
 
 System altered.
 SQL> alter system set db_domain='' scope=spfile;
-
-System altered.
-SQL> ALTER SYSTEM SET log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
 
 System altered.
 SQL> 
