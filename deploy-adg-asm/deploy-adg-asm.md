@@ -475,7 +475,7 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 The standby database can be created from the active primary database.
 
-1. Switch to **grid** user, create pdb directory in ASM, Replace `ORCL_nrt1d4` with your standby db unique name. If the directory exist, ignore the error.
+1. Switch to **grid** user, create pdb directory in ASM, Replace `ORCL_NRT1D4` with your standby db unique name using capital letters. If the directory exist, ignore the error.
 
 ```
 grid@dbstby ~]$ asmcmd
@@ -484,7 +484,7 @@ ASMCMD> mkdir DATA/ORCL_NRT1D4/orclpdb
 ASMCMD> exit
 ```
 
-2. Copy the following command, Replace `ORCL_nrt1d4` with your standby db unique name.
+2. Copy the following command, Replace `ORCL_NRT14D` with your standby db unique name using capital letters.
 
    ```
    <copy>
