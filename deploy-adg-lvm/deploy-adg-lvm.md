@@ -205,21 +205,23 @@ A static listener is needed for initial instantiation of a standby database. The
 
    - Add following lines into listener.ora
 
-   ```
-   SID_LIST_LISTENER=
-     (SID_LIST=
-       (SID_DESC=
-        (GLOBAL_DBNAME=ORCL)
-        (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
-        (SID_NAME=ORCL)
-       )
-       (SID_DESC=
-        (GLOBAL_DBNAME=ORCL_DGMGRL)
-        (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
-        (SID_NAME=ORCL)
-       )
-     )
-   ```
+```
+<copy>
+SID_LIST_LISTENER=
+  (SID_LIST=
+    (SID_DESC=
+     (GLOBAL_DBNAME=ORCL)
+     (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
+     (SID_NAME=ORCL)
+    )
+    (SID_DESC=
+     (GLOBAL_DBNAME=ORCL_DGMGRL)
+     (ORACLE_HOME=/u01/app/oracle/product/19c/dbhome_1)
+     (SID_NAME=ORCL)
+    )
+  )
+</copy>
+```
 
    - Reload the listener
 
@@ -245,21 +247,23 @@ A static listener is needed for initial instantiation of a standby database. The
 
    - Add following lines into listener.ora, replace `ORCL_nrt1d4` with your standby db unique name.
 
-   ```
-   SID_LIST_LISTENER=
-     (SID_LIST=
-       (SID_DESC=
-        (GLOBAL_DBNAME=ORCL_nrt1d4)
-        (ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1)
-        (SID_NAME=ORCL)
-       )
-       (SID_DESC=
-        (GLOBAL_DBNAME=ORCL_nrt1d4_DGMGRL)
-        (ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1)
-        (SID_NAME=ORCL)
-       )
-     )
-   ```
+```
+<copy>
+SID_LIST_LISTENER=
+  (SID_LIST=
+    (SID_DESC=
+     (GLOBAL_DBNAME=ORCL_nrt1d4)
+     (ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1)
+     (SID_NAME=ORCL)
+    )
+    (SID_DESC=
+     (GLOBAL_DBNAME=ORCL_nrt1d4_DGMGRL)
+     (ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1)
+     (SID_NAME=ORCL)
+    )
+  )
+</copy>
+```
 
    - Reload the listener
 
