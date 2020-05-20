@@ -36,7 +36,7 @@ To manually delete the database on the cloud host, run the steps below.
 
    
 
-3. Get the current `db_unique_name` for the Cloud database. 
+3. Connect database as sysdba. Get the current `db_unique_name` for the Cloud database. 
 
 ```
 SQL> select DB_UNIQUE_NAME from v$database;

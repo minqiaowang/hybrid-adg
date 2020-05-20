@@ -108,6 +108,17 @@ SQL> alter database open;
 
 Database altered.
 
+SQL> alter pluggable database orclpdb open;
+
+Pluggable database altered.
+
+SQL> show pdbs
+
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 ORCLPDB			  READ ONLY  NO
+	 
 SQL> select open_mode,database_role from v$database;
 
 OPEN_MODE	     DATABASE_ROLE
