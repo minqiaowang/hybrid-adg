@@ -11,7 +11,7 @@ This lab assumes you have already completed the following labs:
 
 ## Setup the current primary database flashback on
 
-In the previous lab, you have done the data guard switch over. Now, the current primary database is the DBCS and the current standby database in the on-premise database.
+In the previous lab, you have done the Data Guard switch over. Now, the current primary database is the DBCS and the current standby database in the on-premise database.
 
 1. From the Cloud side. Check the flashback status of the current primary database
 
@@ -37,7 +37,7 @@ READ WRITE	     PRIMARY	      NO
 SQL> 
 ```
 
-2. If the Flashback is not enable. You need setup database flashback on, otherwise you couldn't reinstate the primary after the failover.
+2. If the flashback is not enabled you need to setup database flashback on, otherwise you won't be able to reinstate the primary after the failover.
 
 ```
 SQL> shutdown immediate;
@@ -172,7 +172,7 @@ SUCCESS   (status updated 13 seconds ago)
 DGMGRL> 
 ```
 
-Now, the primary is the on-premise database, and the standby database is disabled, which need to be reinstated.
+Now, the primary is the on-premise database, and the standby database is disabled, which needs to be reinstated.
 
 ## Reinstate the previous primary database
 
