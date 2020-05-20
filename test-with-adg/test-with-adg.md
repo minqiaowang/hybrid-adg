@@ -10,7 +10,7 @@ This lab assumes you have already completed the following labs:
 
 ## Test transaction replication
 
-1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need check if the pdb is open.
+1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need  to check if the pdb is open.
 
 ```
 [oracle@workshop ~]$ sqlplus / as sysdba
@@ -57,7 +57,7 @@ SQL>exit;
 2. Connect with testuser, create test table and insert a test record.
 
 ```
-[oracle@workshop ~]$ sqlplus testuser/testuser@dbstby:1521/orclpdb
+[oracle@workshop ~]$ sqlplus testuser/testuser@workshop:1521/orclpdb
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:59:56 2020
 Version 19.5.0.0.0
@@ -107,7 +107,6 @@ MOUNTED 	     PHYSICAL STANDBY
 SQL> alter database open;
 
 Database altered.
-st
 
 SQL> select open_mode,database_role from v$database;
 
@@ -154,7 +153,7 @@ Starting  with Oracle DB 19c, we can run DML operations on Active Data Guard sta
 
 Automatic redirection of DML operations to the primary can be configured at the system level or the session level. The session level setting overrides the system level
 
-1. From cloud side, connect to orclpdb as testuser. Test the DML before and after the DML Redirection enabled.
+1. From cloud side, connect to orclpdb as testuser. Test the DML before and after the DML Redirection is enabled.
 
 ```
 SQL> insert into test values(2,'line2');
