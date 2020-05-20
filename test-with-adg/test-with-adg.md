@@ -215,7 +215,7 @@ Switchovers are always a planned event that guarantees no data is lost. To execu
 1. Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@orcl
+[oracle@workshop ~]$ dgmgrl sys/Ora_DB4U@orcl
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 07:21:55 2020
 Version 19.5.0.0.0
 
@@ -256,7 +256,7 @@ DGMGRL> validate database ORCL_nrt1d4
 DGMGRL> 
 ```
 
-2. Switch over to standby database, replace `ORCL_nrt1d4` with your standby db unique name.
+2. Switch over to cloud standby database, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
 DGMGRL> switchover to orcl_nrt1d4
