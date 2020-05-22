@@ -83,7 +83,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
 <copy>sudo su - oracle</copy>
 ```
 
-2. Configure prompt-less ssh from on-primse to cloud.
+2. Configure prompt-less ssh from on-premise to cloud.
 
      - From on-premise side, generate the ssh key, and cat the public key, copy all the content in the id_rsa.pub
 
